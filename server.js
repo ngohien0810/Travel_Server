@@ -13,13 +13,6 @@ mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   });
 });
 
-// get port from environment and store in Express.
-const port = config.port || "5000";
-
-server = app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
 const exitHandler = () => {
   if (server) {
     server.close(() => {

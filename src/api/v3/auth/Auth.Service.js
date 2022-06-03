@@ -1,9 +1,12 @@
 const httpStatus = require("http-status");
+
+// module
 const tokenService = require("./Token.Service");
 const userService = require("../user/User.Service");
 const Token = require("./Token.Model");
 const { ApiError } = require("../helpers");
 const { tokenTypes } = require("../../../config/Tokens.config");
+
 /**
  * Login with username and password
  * @param {string} email

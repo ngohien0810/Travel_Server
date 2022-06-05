@@ -1,19 +1,23 @@
 const express = require("express");
-const config = require("../../../config");
+const config = require("../../config");
 
-const authRoute = require("../auth/Auth.Route");
-const userRoute = require("../user/User.Route");
+const authRoute = require("../v1/auth/Auth.Route");
+const userRoute = require("../v1/user/User.Route");
 
 const router = express.Router();
 
 const defaultRoutes = [
   {
-    path: "/auth",
+    path: "/v1/auth",
     route: authRoute,
   },
   {
-    path: "/users",
+    path: "/v1/users",
     route: userRoute,
+  },
+  {
+    path: "/mysql",
+    route: require("../v2/user/User.Route"),
   },
 ];
 

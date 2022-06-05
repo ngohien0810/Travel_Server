@@ -1,6 +1,6 @@
 const httpStatus = require("http-status");
 const { ApiError } = require("../helpers");
-const User = require("./User.Model");
+import db from "../models/index";
 
 /**
  * Create a user
@@ -8,10 +8,10 @@ const User = require("./User.Model");
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
-  if (await User.isEmailTaken(userBody.email)) {
+  if (await db.User.isEmailTaken(userBody.email)) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   }
-  return User.create(userBody);
+  return db.User.create(userBody);
 };
 
 /**

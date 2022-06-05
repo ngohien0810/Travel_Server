@@ -11,22 +11,24 @@ const emailService = require("./Email.Service");
 // register
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
-  const tokens = await tokenService.generateAuthTokens(user);
-  res.status(httpStatus.CREATED).send({ user, tokens });
+  const { access, refresh } = await tokenService.generateAuthTokens(user);
+  res
+    .status(httpStatus.CREATED)
+    .send({ user, tokens: { access, refresh }, msg: "Đăng ký thành công" });
 });
 
 // login
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
-  const tokens = await tokenService.generateAuthTokens(user);
-  res.send({ user, tokens });
+  const { access, refresh } = await tokenService.generateAuthTokens(user);
+  res.send({ user, tokens: { access, refresh }, msg: "Đăng nhập thành công" });
 });
 
 // logout
 const logout = catchAsync(async (req, res) => {
   await authService.logout(req.body.refreshToken);
-  res.status(httpStatus.NO_CONTENT).send();
+  res.send();
 });
 
 // refresh token
@@ -56,13 +58,13 @@ const sendVerificationEmail = catchAsync(async (req, res) => {
     req.user
   );
   await emailService.sendVerificationEmail(req.user.email, verifyEmailToken);
-  res.status(httpStatus.NO_CONTENT).send();
+  res.send({ msg: "Kiểm tra email để lấy mã xác thực." });
 });
 
 // verifyEmail
 const verifyEmail = catchAsync(async (req, res) => {
   await authService.verifyEmail(req.query.token);
-  res.status(httpStatus.NO_CONTENT).send();
+  res.send({ msg: "Xác thực tài khoản thành công, Cảm ơn quý khách!" });
 });
 
 // export

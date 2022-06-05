@@ -4,13 +4,24 @@ let app = require("./app");
 const http = require("http");
 const config = require("./src/config");
 const logger = require("./src/config/Logger.config");
+const sequelize = require("./src/api/v2/config/connect.config");
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
   logger.info("Connected to MongoDB");
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
+});
+
+sequelize
+  .authenticate()
+  .then(() => {
+    logger.info("Connected to MySQL");
+  })
+  .catch((err) => {
+    logger.error("Error connecting to MySQL", err);
   });
+
+server = app.listen(config.port, () => {
+  logger.info(`Listening to port ${config.port}`);
 });
 
 const exitHandler = () => {

@@ -16,7 +16,10 @@ const { tokenTypes } = require("../../../config/Tokens.config");
 const loginUserWithEmailAndPassword = async (email, password) => {
   const user = await userService.getUserByEmail(email);
   if (!user || !(await user.isPasswordMatch(password))) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "Incorrect email or password");
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "Email hoặc mật khẩu không chính xác."
+    );
   }
   return user;
 };
@@ -101,7 +104,7 @@ const verifyEmail = async (verifyEmailToken) => {
     await Token.deleteMany({ user: user.id, type: tokenTypes.VERIFY_EMAIL });
     await userService.updateUserById(user.id, { isEmailVerified: true });
   } catch (error) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, "Email verification failed");
+    throw new ApiError(httpStatus.UNAUTHORIZED, "Xác thực email thất bại.");
   }
 };
 

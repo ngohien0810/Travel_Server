@@ -11,6 +11,14 @@ const envVarsSchema = Joi.object()
       .required(),
     PORT: Joi.number().default(5000),
     MONGODB_URL: Joi.string().required().description("Mongo DB url"),
+    MY_SQL: {
+      HOST: Joi.string().required().description("My SQL host"),
+      USER: Joi.string().required().description("My SQL user"),
+      PASSWORD: Joi.string().required().description("My SQL password"),
+      DATABASE: Joi.string().required().description("My SQL database"),
+      PORT_SQL: Joi.number().default(3306),
+      DIALECT: Joi.string().default("mysql"),
+    },
     JWT_SECRET: Joi.string().required().description("JWT secret key"),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number()
       .default(30)
@@ -45,6 +53,14 @@ if (error) {
 module.exports = {
   env: envVars.NODE_ENV,
   port: envVars.PORT,
+  mysql: {
+    host: envVars.HOST,
+    user: envVars.USER,
+    password: envVars.PASSWORD,
+    database: envVars.DATABASE,
+    port: envVars.PORT_SQL,
+    dialect: envVars.DIALECT,
+  },
   mongoose: {
     url: envVars.MONGODB_URL + (envVars.NODE_ENV === "test" ? "-test" : ""),
     options: {
@@ -63,6 +79,7 @@ module.exports = {
   },
   email: {
     smtp: {
+      secure: false,
       host: envVars.SMTP_HOST,
       port: envVars.SMTP_PORT,
       auth: {

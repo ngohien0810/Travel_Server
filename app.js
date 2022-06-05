@@ -7,17 +7,17 @@ const httpStatus = require("http-status");
 const passport = require("passport");
 
 // const userRoute = require("./src/api/v3/user/User.Route");
-const { ApiError } = require("./src/api/v3/helpers");
+const { ApiError } = require("./src/api/v1/helpers");
 const config = require("./src/config");
 const {
   errorHandler,
   errorConverter,
-} = require("./src/api/v3/middlewares/error");
+} = require("./src/api/v1/middlewares/error");
 const morgan = require("./src/config/Morgan.config");
 const { jwtStrategy } = require("./src/config/Passport.config");
 // const { authLimiter } = require("./src/api/v3/middlewares/authLimiter");
 
-const routes = require("./src/api/v3/routes");
+const routes = require("./src/api/routes");
 
 const app = express();
 // set security HTTP headers
@@ -37,7 +37,12 @@ app.use(xss());
 app.use(mongoSanitize());
 
 // enable cors
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.options("*", cors());
 
 // jwt authentication

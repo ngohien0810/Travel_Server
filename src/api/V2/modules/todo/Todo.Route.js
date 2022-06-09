@@ -7,29 +7,17 @@ const router = express.Router();
 
 router
   .route("/todos")
-  //   .post(
-  //     auth("manageUsers"),
-  //     validate(userValidation.createUser),
-  //     userController.createUser
-  //   )
+  .post(TodoController.createTodo)
   .get(TodoController.getTodos);
 
-// router
-//   .route("/user_info/:userId")
-//   .get(
-//     auth("getUsers"),
-//     validate(userValidation.getUser),
-//     userController.getUser
-//   )
-//   .patch(
-//     auth("manageUsers"),
-//     validate(userValidation.updateUser),
-//     userController.updateUser
-//   )
-//   .delete(
-//     auth("manageUsers"),
-//     validate(userValidation.deleteUser),
-//     userController.deleteUser
-//   );
+router
+  .route("/todos/:todoId")
+  //   .get(
+  //     auth("getUsers"),
+  //     validate(userValidation.getUser),
+  //     userController.getUser
+  //   )
+  .put(TodoController.updateTodos)
+  .delete(TodoController.deleteTodos);
 
 module.exports = router;

@@ -19,7 +19,7 @@ const defaultRoutes = [
     route: userRoute,
   },
   {
-    path: "/v2/todo",
+    path: "/v2",
     route: todoRoute,
   },
 ];

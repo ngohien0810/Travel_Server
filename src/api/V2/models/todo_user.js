@@ -1,18 +1,18 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class TodoUser extends Model {
+  class Todo_users extends Model {
     static associate(models) {}
   }
-  TodoUser.init(
+  Todo_users.init(
     {
       user_id: DataTypes.INTEGER,
       todo_id: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "TodoUser",
+      modelName: "Todo_users",
     }
   );
-  return TodoUser;
+  return Todo_users;
 };

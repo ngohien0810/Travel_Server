@@ -2,11 +2,20 @@ const httpStatus = require('http-status');
 const { ApiError } = require('../../helpers');
 const db = require('../../models/index');
 const moment = require('moment');
+const sequelize = require('sequelize');
 // find all todos and pagination
-const getTodos = async (condition, limit, offset, filter) => {
-    const paramFilter = filter === 'today' ? 'startDate' : filter;
+const getTodos = async (title, limit, offset, filter) => {
+    var condition = title ? { title: { [sequelize.Op.like]: `%${title}%` } } : null;
+    const paramFilter = filter === 'today' ? 'startDate' : typeof Number(filter) ? 'labels' : filter;
     const filterWhere = filter
-        ? { [paramFilter]: filter === 'today' ? moment(new Date()).format('YYYY-MM-DD') : true }
+        ? {
+              [paramFilter]:
+                  filter === 'today'
+                      ? moment(new Date()).format('YYYY-MM-DD')
+                      : typeof Number(filter)
+                      ? { [sequelize.Op.like]: `%${filter}%` }
+                      : true,
+          }
         : {};
 
     const listLabels = await db.TodoLabels.findAll({
@@ -20,14 +29,23 @@ const getTodos = async (condition, limit, offset, filter) => {
         where: { ...condition, ...filterWhere },
         limit,
         offset,
-        include: {
-            model: db.User,
-            as: 'users',
-            attributes: {
-                exclude: ['createdAt', 'updatedAt', 'todo_users'],
+        include: [
+            {
+                model: db.User,
+                as: 'users',
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'todo_users'],
+                },
+                through: { attributes: [] },
             },
-            through: { attributes: [] },
-        },
+            {
+                model: db.Todo_Comments,
+                as: 'comments',
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt', 'TodoId', 'todoId'],
+                },
+            },
+        ],
         distinct: true,
     })
         .then((result) => {
@@ -53,7 +71,6 @@ const createTodos = async (todoBody) => {
     if (!todoBody?.title) throw new ApiError(httpStatus.BAD_REQUEST, 'Tên công việc không được để trống');
     return db.Todos.create({ ...todoBody, raw: true })
         .then((todo) => {
-            console.log(typeof todoBody.users);
             if (todoBody.users && todoBody.users.length > 0) {
                 const users = todoBody.users.map((user_id) => ({
                     user_id,

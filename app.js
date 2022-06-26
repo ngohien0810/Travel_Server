@@ -50,7 +50,7 @@ app.use(compression());
 // enable cors
 app.use(
     cors({
-        origin: 'http://localhost:3002',
+        origin: `${process.env.CLIENT_URL}`,
         credentials: true,
     })
 );

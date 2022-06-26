@@ -23,6 +23,7 @@ npm init nodejs-express-app <project-name>
 ```
 
 ## Config sequelize cli
+
 ```bash
 npm i sequelize
 ```
@@ -33,7 +34,7 @@ and:
 npm i sequelize-cli
 ```
 
-create file .sequelizesrc and 
+create file .sequelizesrc and
 
 ```bash
 var path = require("path");
@@ -47,7 +48,8 @@ module.exports = {
 ```
 
 run
-```bash 
+
+```bash
 npx sequelize-cli init
 ```
 
@@ -78,53 +80,53 @@ cp .env.example .env
 
 ## Table of Contents
 
-- [RESTful API Node Server Boilerplate](#restful-api-node-server-boilerplate)
-  - [Quick Start](#quick-start)
-  - [Config sequelize cli](#config-sequelize-cli)
-  - [Manual Installation](#manual-installation)
-  - [Table of Contents](#table-of-contents)
-  - [Features](#features)
-  - [Commands](#commands)
-  - [Environment Variables](#environment-variables)
-  - [Project Structure](#project-structure)
-  - [API Documentation](#api-documentation)
-    - [API Endpoints](#api-endpoints)
-  - [Error Handling](#error-handling)
-  - [Validation](#validation)
-  - [Authentication](#authentication)
-  - [Authorization](#authorization)
-  - [Logging](#logging)
-  - [Custom Mongoose Plugins](#custom-mongoose-plugins)
-    - [toJSON](#tojson)
-    - [paginate](#paginate)
-  - [Linting](#linting)
-  - [Contributing](#contributing)
-  - [Inspirations](#inspirations)
-  - [License](#license)
+-   [RESTful API Node Server Boilerplate](#restful-api-node-server-boilerplate)
+    -   [Quick Start](#quick-start)
+    -   [Config sequelize cli](#config-sequelize-cli)
+    -   [Manual Installation](#manual-installation)
+    -   [Table of Contents](#table-of-contents)
+    -   [Features](#features)
+    -   [Commands](#commands)
+    -   [Environment Variables](#environment-variables)
+    -   [Project Structure](#project-structure)
+    -   [API Documentation](#api-documentation)
+        -   [API Endpoints](#api-endpoints)
+    -   [Error Handling](#error-handling)
+    -   [Validation](#validation)
+    -   [Authentication](#authentication)
+    -   [Authorization](#authorization)
+    -   [Logging](#logging)
+    -   [Custom Mongoose Plugins](#custom-mongoose-plugins)
+        -   [toJSON](#tojson)
+        -   [paginate](#paginate)
+    -   [Linting](#linting)
+    -   [Contributing](#contributing)
+    -   [Inspirations](#inspirations)
+    -   [License](#license)
 
 ## Features
 
-- **NoSQL database**: [MongoDB](https://www.mongodb.com) object data modeling using [Mongoose](https://mongoosejs.com)
-- **Authentication and authorization**: using [passport](http://www.passportjs.org)
-- **Validation**: request data validation using [Joi](https://github.com/hapijs/joi)
-- **Logging**: using [winston](https://github.com/winstonjs/winston) and [morgan](https://github.com/expressjs/morgan)
-- **Testing**: unit and integration tests using [Jest](https://jestjs.io)
-- **Error handling**: centralized error handling mechanism
-- **API documentation**: with [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) and [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
-- **Process management**: advanced production process management using [PM2](https://pm2.keymetrics.io)
-- **Dependency management**: with [Yarn](https://yarnpkg.com)
-- **Environment variables**: using [dotenv](https://github.com/motdotla/dotenv) and [cross-env](https://github.com/kentcdodds/cross-env#readme)
-- **Security**: set security HTTP headers using [helmet](https://helmetjs.github.io)
-- **Santizing**: sanitize request data against xss and query injection
-- **CORS**: Cross-Origin Resource-Sharing enabled using [cors](https://github.com/expressjs/cors)
-- **Compression**: gzip compression with [compression](https://github.com/expressjs/compression)
-- **CI**: continuous integration with [Travis CI](https://travis-ci.org)
-- **Docker support**
-- **Code coverage**: using [coveralls](https://coveralls.io)
-- **Code quality**: with [Codacy](https://www.codacy.com)
-- **Git hooks**: with [husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged)
-- **Linting**: with [ESLint](https://eslint.org) and [Prettier](https://prettier.io)
-- **Editor config**: consistent editor configuration using [EditorConfig](https://editorconfig.org)
+-   **NoSQL database**: [MongoDB](https://www.mongodb.com) object data modeling using [Mongoose](https://mongoosejs.com)
+-   **Authentication and authorization**: using [passport](http://www.passportjs.org)
+-   **Validation**: request data validation using [Joi](https://github.com/hapijs/joi)
+-   **Logging**: using [winston](https://github.com/winstonjs/winston) and [morgan](https://github.com/expressjs/morgan)
+-   **Testing**: unit and integration tests using [Jest](https://jestjs.io)
+-   **Error handling**: centralized error handling mechanism
+-   **API documentation**: with [swagger-jsdoc](https://github.com/Surnet/swagger-jsdoc) and [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express)
+-   **Process management**: advanced production process management using [PM2](https://pm2.keymetrics.io)
+-   **Dependency management**: with [Yarn](https://yarnpkg.com)
+-   **Environment variables**: using [dotenv](https://github.com/motdotla/dotenv) and [cross-env](https://github.com/kentcdodds/cross-env#readme)
+-   **Security**: set security HTTP headers using [helmet](https://helmetjs.github.io)
+-   **Santizing**: sanitize request data against xss and query injection
+-   **CORS**: Cross-Origin Resource-Sharing enabled using [cors](https://github.com/expressjs/cors)
+-   **Compression**: gzip compression with [compression](https://github.com/expressjs/compression)
+-   **CI**: continuous integration with [Travis CI](https://travis-ci.org)
+-   **Docker support**
+-   **Code coverage**: using [coveralls](https://coveralls.io)
+-   **Code quality**: with [Codacy](https://www.codacy.com)
+-   **Git hooks**: with [husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged)
+-   **Linting**: with [ESLint](https://eslint.org) and [Prettier](https://prettier.io)
+-   **Editor config**: consistent editor configuration using [EditorConfig](https://editorconfig.org)
 
 ## Commands
 
@@ -250,8 +252,8 @@ Controllers should try to catch the errors and forward them to the error handlin
 ```javascript
 const catchAsync = require('../utils/catchAsync');
 const controller = catchAsync(async (req, res) => {
-  // this error will be forwarded to the error handling middleware
-  throw new Error('Something wrong happened');
+    // this error will be forwarded to the error handling middleware
+    throw new Error('Something wrong happened');
 });
 ```
 
@@ -259,8 +261,8 @@ The error handling middleware sends an error response, which has the following f
 
 ```json
 {
-  "code": 404,
-  "message": "Not found"
+    "code": 404,
+    "message": "Not found"
 }
 ```
 
@@ -275,10 +277,10 @@ const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const User = require('../models/User');
 const getUser = async (userId) => {
-  const user = await User.findById(userId);
-  if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
-  }
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    }
 };
 ```
 
@@ -373,10 +375,10 @@ The app also contains 2 custom mongoose plugins that you can attach to any mongo
 const mongoose = require('mongoose');
 const { toJSON, paginate } = require('./plugins');
 const userSchema = mongoose.Schema(
-  {
-    /* schema definition here */
-  },
-  { timestamps: true }
+    {
+        /* schema definition here */
+    },
+    { timestamps: true }
 );
 userSchema.plugin(toJSON);
 userSchema.plugin(paginate);
@@ -387,8 +389,8 @@ const User = mongoose.model('User', userSchema);
 
 The toJSON plugin applies the following changes in the toJSON transform call:
 
-- removes \_\_v, createdAt, updatedAt, and any schema path that has private: true
-- replaces \_id with id
+-   removes \_\_v, createdAt, updatedAt, and any schema path that has private: true
+-   replaces \_id with id
 
 ### paginate
 
@@ -398,8 +400,8 @@ Adding this plugin to the `User` model schema will allow you to do the following
 
 ```javascript
 const queryUsers = async (filter, options) => {
-  const users = await User.paginate(filter, options);
-  return users;
+    const users = await User.paginate(filter, options);
+    return users;
 };
 ```
 
@@ -409,9 +411,9 @@ The `options` param can have the following (optional) fields:
 
 ```javascript
 const options = {
-  sortBy: 'name:desc', // sort order
-  limit: 5, // maximum results per page
-  page: 2, // page number
+    sortBy: 'name:desc', // sort order
+    limit: 5, // maximum results per page
+    page: 2, // page number
 };
 ```
 
@@ -421,11 +423,11 @@ The `paginate` method returns a Promise, which fulfills with an object having th
 
 ```json
 {
-  "results": [],
-  "page": 2,
-  "limit": 5,
-  "totalPages": 10,
-  "totalResults": 48
+    "results": [],
+    "page": 2,
+    "limit": 5,
+    "totalPages": 10,
+    "totalResults": 48
 }
 ```
 
@@ -435,106 +437,213 @@ Linting is done using [ESLint](https://eslint.org/) and [Prettier](https://prett
 
 In this app, ESLint is configured to follow the [Airbnb JavaScript style guide](https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base) with some modifications. It also extends [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) to turn off all rules that are unnecessary or might conflict with Prettier.
 
-To modify the ESLint configuration, update the `.eslintrc.json` file. To modify the Prettier configuration, update the `.prettierrc.json` file.
+# Deploy-Node-JS-and-Mysql-to-AWS-EC2-VPS
 
-To prevent a certain file or directory from being linted, add it to `.eslintignore` and `.prettierignore`.
+## Create new instance (AWS)
 
-To maintain a consistent coding style across different IDEs, the project contains `.editorconfig`
+## Configuring the Firewall on your Cloud
 
-## Contributing
+Check firewall: `sudo ufw status`
 
-Contributions are more than welcome! Please check out the [contributing guide](CONTRIBUTING.md).
+```bash
+sudo ufw app list
+```
 
-## Inspirations
+-   So let us config the Firewall and allow those ports by
 
-- [danielfsousa/express-rest-es2017-boilerplate](https://github.com/danielfsousa/express-rest-es2017-boilerplate)
-- [madhums/node-express-mongoose](https://github.com/madhums/node-express-mongoose)
-- [kunalkapadia/express-mongoose-es6-rest-api](https://github.com/kunalkapadia/express-mongoose-es6-rest-api)
+    ```bash
+    sudo ufw allow 'Nginx Full'
+    ```
 
-## License
+    ```bash
+    sudo ufw allow 'OpenSSH'
+    ```
 
-﻿# Deploy-Node-JS-and-Mysql-to-AWS-EC2-VPS
+    ```bash
+    sudo ufw enable
+    ```
 
-## Prepare basic app Node-JS have connect mysql 
+## 1. Install NodeJS
 
-- You can clone my basic app here: https://github.com/
+```bash
+curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+```
 
-## Create new instance
-##  2. Install and config MY-SQL  
-- Update ubuntu and  Install MY-SQL
+run script
 
-    `$ sudo apt update`
+```bash
+sudo bash nodesource_setup.sh
+```
 
-    `$ sudo apt install mysql-server`
+Install NodeJS
 
-- Config MY-SQL
+```bash
+sudo apt install nodejs
+```
 
-    `$ sudo mysql_secure_installation`
+## Setup MongoDB (local)
 
-- Change method authenticated user to mysql_native_password
+We are using MongoDB as a database, and so we can install it my following the documentation https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/
 
-    `$ sudo mysql `
+-   Import the public key used by the package management system
+    ```
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+    ```
+-   Create a list file for MongoDB (Ubuntu 16.04)
+    ```
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+    ```
+-   Reload local package database
+    ```
+    sudo apt-get update
+    ```
+-   Install the latest stable version of MongoDB
+    ```
+    sudo apt-get install -y mongodb-org
+    ```
+-   Start MongoDB by running (default port: 27017)
+    ```
+    sudo service mongod start
+    ```
+-   Stop MongoDB by running
+    ```
+    sudo service mongod stop
+    ```
+-   Restart MongoDB by running
+    ```
+    sudo service mongod restart
+    ```
 
-    `mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '12345678';`
+## 2. Install and config MY-SQL
 
-    `mysql> exit`
+-   Update ubuntu and Install MY-SQL
 
-- Test connect mysql
+    ```bash
+     $ sudo apt update
+    ```
 
-    `$ mysql -u root -p `
+    ```bash
+     $ sudo apt install mysql-server
+    ```
+
+-   Config MY-SQL
+
+    ```bash
+     $ sudo mysql_secure_installation
+    ```
+
+-   Change method authenticated user to mysql_native_password
+
+    ```bash
+     $ sudo mysql
+    ```
+
+    ```
+    mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '12345678';
+    ```
+
+    ```
+    mysql> exit
+    ```
+
+-   Test connect mysql
+
+    ```bash
+     $ mysql -u root -p
+    ```
 
     Enter password: 12345678
 
-    `mysql> exit`
+    ```
+    mysql> exit
+    ```
 
+## 3. Install and Run app in background using PM2
 
-##  3. App Node-JS
+-   Install PM2
 
--  Install npm 
-    `$ sudo apt install npm`
+    ```bash
+    $ sudo npm i pm2@latest -g
+    ```
 
--  Clone project  ( your project or use my project at https://github.com/nguyenthanhson162001/Deploy-Node-JS-and-Mysql-to-AWS-EC2-VPS-.git)
+-   Start app with app name = demo
 
-    `$ sudo git clone  https://github.com/.........`
+    ```
+    sudo pm2 start server.js --name "nhuydev" --watch
+    ```
 
-    `$ cd your-project`
+## 4. Install nginx and config
 
-    `$ npm install `
+```bash
+sudo apt-get update
+sudo apt-get install nginx
+systemctl status nginx
+```
 
--  Allow port (port in your app EX: 3000) 
+-   Config: Các cấu hình của NGINX mặc định được lưu ở thư mục /etc/nginx. Trong nội dung bài viết này mình sẽ quan tâm đến hai thư mục là sites-available và sites-enabled. Cụ thể mình sẽ viết các tập tin cấu hình ở sites-available và khi nào muốn kích hoạt cấu hình đó ta sẽ symlink tập tin cấu hình vào thư mục sites-enabled.
+-   Mình sẽ tạo tập tin cấu hình /etc/nginx/sites-available/api.quanlycongviec.cf với nội dung sau. Cụ thể là sẽ chuyển các request từ port 80 đi từ domain api.quanlycongviec.cf về localhost:3001.
 
-    `$ sudo ufw enable`
+```bash
+server {
+  listen 80;
+  server_name api.quanlycongviec.cf;
+  location / {
+    proxy_pass http://localhost:3001;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+   }
+}
+```
 
-    `$ sudo ufw allow 3000`
+Tiếp theo là symlink vào thư mục sites-enabled để NGINX sử dụng cấu hình này.
 
-- Run test app  (index.js is app name)
+```bash
+sudo ln -s /etc/nginx/sites-available/api.quanlycongviec.cf /etc/nginx/sites-enabled
+```
 
-    `$ sudo node index.js`
-    - Check in browser and check connect to mysql  http://hostname:3000/mysql
+Kiểm tra: `nginx -t`
+Reload: `sudo systemctl reload nginx`
 
-## Run app in background using PM2
-- Install PM2
+###Bonus
 
-    `$ sudo npm i pm2 -g`
+```bash
+sudo systemctl stop nginx # tắt NGINX
+sudo systemctl start nginx # bật NGINX
+sudo systemctl restart nginx # khởi động lại NGINX
+sudo systemctl reload nginx # nếu bạn chỉ thay đổi cấu hình của NGINX thì chỉ cần reload để tránh làm rớt các kết nối hiện tại vào NGINX
+sudo systemctl disable nginx # không tự kích hoạt NGINX khi khởi động hệ thống
+sudo systemctl enable nginx # tự kích hoạt NGINX khi khởi động hệ thống
+```
 
-- Start app with app name = demo
+## 5. Sử dụng Certbot để cấu hình https
+```bassh
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update
 
-    `sudo pm2 start index.js --name demo`
+sudo apt-get install certbot python3-certbot-nginx
+```
 
+Use `sudo certbot --nginx`
 
 ---
+
 ## Bonus
-- Can stop app using 
 
-    `   sudo pm2 stop all `
+-   Can stop app using
 
-- Can Reload app using      
+    ` sudo pm2 stop all`
 
-    ` sudo pm2 reload all `
+-   Can Reload app using
+
+    `sudo pm2 reload all`
 
 ---
 
-## *** ------------ Done and thank's very much------------  ***
+## **_ ------------ Done and thank's very much (Nhuydev) ------------ _**
 
-
-[MIT](LICENSE)

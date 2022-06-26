@@ -4,19 +4,20 @@ const db = require('../../models/index');
 const moment = require('moment');
 const sequelize = require('sequelize');
 // find all todos and pagination
-const getTodos = async (title, limit, offset, filter) => {
+const getTodos = async (title, limit, offset, filter, label) => {
     var condition = title ? { title: { [sequelize.Op.like]: `%${title}%` } } : null;
-    const paramFilter = filter === 'today' ? 'startDate' : typeof Number(filter) ? 'labels' : filter;
-    const filterWhere = filter
-        ? {
-              [paramFilter]:
-                  filter === 'today'
-                      ? moment(new Date()).format('YYYY-MM-DD')
-                      : typeof Number(filter)
-                      ? { [sequelize.Op.like]: `%${filter}%` }
-                      : true,
-          }
-        : {};
+    const paramFilter = filter === 'today' ? 'startDate' : label ? 'labels' : filter;
+    const filterWhere =
+        filter || label
+            ? {
+                  [paramFilter]:
+                      filter === 'today'
+                          ? moment(new Date()).format('YYYY-MM-DD')
+                          : label
+                          ? { [sequelize.Op.like]: `%${label}%` }
+                          : true,
+              }
+            : {};
 
     const listLabels = await db.TodoLabels.findAll({
         raw: true,

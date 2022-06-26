@@ -20,10 +20,10 @@ const getPagingData = (data, page, limit, field) => {
 
 // get all todos
 const getTodos = catchAsync(async (req, res) => {
-    const { page, size, title, filter } = req.query;
+    const { page, size, title, filter, label } = req.query;
     const { limit, offset } = getPagination(page - 1, size);
 
-    const todos = await TodoSevice.getTodos(title, limit, offset, filter);
+    const todos = await TodoSevice.getTodos(title, limit, offset, filter, label);
 
     res.send(getPagingData(todos, page, limit, 'list_todo'));
 });

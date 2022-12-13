@@ -5,7 +5,7 @@ const authRoute = require("../v1/auth/Auth.Route");
 const userRoute = require("../v1/user/User.Route");
 
 // v2
-const todoRoute = require("../v2/modules/todo/Todo.Route");
+const categoryRoute = require("../v2/modules/category/Category.Route");
 
 const router = express.Router();
 
@@ -20,7 +20,7 @@ const defaultRoutes = [
   },
   {
     path: "/v2",
-    route: todoRoute,
+    route: categoryRoute,
   },
 ];
 

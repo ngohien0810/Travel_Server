@@ -55,7 +55,7 @@ module.exports = {
   port: envVars.PORT,
   mysql: {
     host: envVars.HOST,
-    user: envVars.USER,
+    user: envVars.USER_DB,
     password: envVars.PASSWORD,
     database: envVars.DATABASE,
     port: envVars.PORT_SQL,

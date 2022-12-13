@@ -1,5 +1,5 @@
 // mongo
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 let { serverSocket } = require('./app');
 
 const config = require('./src/config');
@@ -7,9 +7,9 @@ const logger = require('./src/config/Logger.config');
 const sequelize = require('./src/api/v2/config/connect.config');
 
 let server;
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-    logger.info('Connected to MongoDB');
-});
+// mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
+//     logger.info('Connected to MongoDB');
+// });
 
 sequelize
     .authenticate()

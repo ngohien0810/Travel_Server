@@ -3,7 +3,7 @@ const { getCategoriesService } = require("./Category.Service");
 
 
 const getPagination = (page, size) => {
-    const limit = size ? +size : 3;
+    const limit = size ? +size : 10;
     const offset = page ? page * limit : 0;
     return { limit, offset };
 };
@@ -25,7 +25,7 @@ const getCategories = catchAsync(async (req, res) => {
 
     const todos = await getCategoriesService(title, limit, offset, filter, label);
 
-    res.send(getPagingData(todos, page, limit, 'list_todo'));
+    res.send(getPagingData(todos, page, limit, 'data'));
 });
 
 

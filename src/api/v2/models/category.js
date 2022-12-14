@@ -18,14 +18,14 @@ module.exports = (sequelize, DataTypes) => {
             Name: DataTypes.STRING,
             Status: DataTypes.INTEGER,
             isActive: DataTypes.INTEGER,
-            Discriminator: DataTypes.INTEGER,
+            CreatedDate: DataTypes.STRING,
         },
         {
             sequelize,
             tableName: 'Categories',
             modelName: 'Categories',
             timestamps: false,
-            createdAt: 'CreatedDate',
+            // createdAt: 'CreatedDate',
         }
     );
     return Categories;

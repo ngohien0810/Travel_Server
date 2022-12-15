@@ -7,7 +7,7 @@ const db = require('../../models/index');
 // find all todos and pagination
 const getCategoriesService = async (title, limit, offset, filter, label) => {
     var condition = title ? { Name: { [sequelize.Op.like]: `%${title}%` } } : null;
-    
+
     const filterWhere = {};
 
     return db.Categories.findAndCountAll({
@@ -24,6 +24,49 @@ const getCategoriesService = async (title, limit, offset, filter, label) => {
         });
 };
 
+// new category
+const createCategoryService = async (body) => {
+    const { Name, Description, Image, Label } = body;
+    const category = await db.Categories.create({
+        Name,
+        Description,
+        Image,
+        Label,
+        CreatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+        UpdatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+    });
+    return category;
+};
+
+// update category
+const updateCategoryService = async (id, body) => {
+    const { Name, Description, Image, Label } = body;
+    const category = await db.Categories.update(
+        {
+            Name,
+            Description,
+            Image,
+            Label,
+            UpdatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+        },
+        {
+            where: { Id: id },
+        }
+    );
+    return category;
+};
+
+// delete category
+const deleteCategoryService = async (id) => {
+    const category = await db.Categories.destroy({
+        where: { Id: id },
+    });
+    return category;
+};
+
 module.exports = {
     getCategoriesService,
+    createCategoryService,
+    updateCategoryService,
+    deleteCategoryService,
 };

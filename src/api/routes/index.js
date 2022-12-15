@@ -1,39 +1,41 @@
-const express = require("express");
-const config = require("../../config");
-
-const authRoute = require("../v1/auth/Auth.Route");
-const userRoute = require("../v1/user/User.Route");
+const express = require('express');
+const config = require('../../config');
 
 // v2
-const categoryRoute = require("../v2/modules/category/Category.Route");
+const categoryRoute = require('../v2/modules/category/Category.Route');
+const authRoute = require('../v2/modules/auth/Auth.Route');
 
 const router = express.Router();
 
 const defaultRoutes = [
-  {
-    path: "/v1/auth",
-    route: authRoute,
-  },
-  {
-    path: "/v1/users",
-    route: userRoute,
-  },
-  {
-    path: "/v2",
-    route: categoryRoute,
-  },
+    // {
+    //   path: "/v1/auth",
+    //   route: authRoute,
+    // },
+    // {
+    //   path: "/v1/users",
+    //   route: userRoute,
+    // },
+    {
+        path: '/v2',
+        route: categoryRoute,
+    },
+    {
+        path: '/v2',
+        route: authRoute,
+    },
 ];
 
 const devRoutes = [
-  // routes available only in development mode
-  {
-    path: "/docs",
-    // route: docsRoute,
-  },
+    // routes available only in development mode
+    {
+        path: '/docs',
+        // route: docsRoute,
+    },
 ];
 
 defaultRoutes.forEach((route) => {
-  router.use(route.path, route.route);
+    router.use(route.path, route.route);
 });
 
 /* istanbul ignore next */

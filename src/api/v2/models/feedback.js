@@ -1,7 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class Categories extends Model {
+    class Feedbacks extends Model {
         static associate(models) {
             // Categories.belongsToMany(models.User, {
             //     through: 'todo_users',
@@ -13,21 +13,23 @@ module.exports = (sequelize, DataTypes) => {
             // });
         }
     }
-    Categories.init(
+    Feedbacks.init(
         {
             Name: DataTypes.STRING,
-            Status: DataTypes.INTEGER,
+            Phone: DataTypes.INTEGER,
+            Email: DataTypes.STRING,
+            Note: DataTypes.STRING,
+            Rate: DataTypes.INTEGER,
             isActive: DataTypes.INTEGER,
             CreatedDate: DataTypes.STRING,
         },
         {
             sequelize,
-            tableName: 'Categories',
-            modelName: 'Categories',
+            tableName: 'Feedbacks',
+            modelName: 'Feedbacks',
             timestamps: false,
             // createdAt: 'CreatedDate',
         }
     );
-    return Categories;
-    
+    return Feedbacks;
 };

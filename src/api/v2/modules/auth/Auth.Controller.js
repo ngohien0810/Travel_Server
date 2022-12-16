@@ -1,12 +1,12 @@
 const httpStatus = require('http-status');
 const { catchAsync } = require('../../helpers');
 const { loginUserWithPhoneAndPassword, getUserById } = require('./Auth.Service');
+const { createUserService } = require('./User.Service');
 
 // register
 const register = catchAsync(async (req, res) => {
-    const user = await userService.createUser(req.body);
-    const { access, refresh } = await tokenService.generateAuthTokens(user);
-    res.status(httpStatus.CREATED).send({ user, tokens: { access, refresh }, message: 'Đăng ký thành công' });
+    const user = await createUserService(req.body);
+    res.status(httpStatus.CREATED).send({ user, message: 'Đăng ký thành công' });
 });
 
 // login

@@ -34,10 +34,10 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'Users',
             modelName: 'Users',
             timestamps: false,
-            beforeCreate: async function (user) {
-                const salt = await bcryptjs.genSalt(10); //whatever number you want
-                user.password = await bcryptjs.hash(user.password, salt);
-            },
+            // beforeCreate: async function (user) {
+            //     const salt = await bcryptjs.genSalt(10); //whatever number you want
+            //     user.password = await bcryptjs.hash(user.password, salt);
+            // },
             // createdAt: 'CreatedDate',
         }
     );

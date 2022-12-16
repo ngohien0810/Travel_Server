@@ -7,8 +7,8 @@ const createUserService = async (body) => {
     const salt = await bcryptjs.genSalt(10); //whatever number you want
     const hashPass = await bcryptjs.hash(Password, salt);
 
-    const users = await db.Users.create({
-        Username,
+    const users = await db.Customers.create({
+        Name: Username,
         Email,
         Phone,
         Role: 1,
@@ -17,7 +17,7 @@ const createUserService = async (body) => {
         DOB: null,
         Address: null,
         Status: 1,
-        isActive: 1,
+        IsActive: 1,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
     return users;

@@ -2,7 +2,7 @@
 module.exports = {
     async up(queryInterface, Sequelize) {
         await queryInterface.createTable('Feedbacks', {
-            id: {
+            ID: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
@@ -36,7 +36,6 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            
         });
     },
     async down(queryInterface, Sequelize) {

@@ -1,52 +1,36 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Orders', {
+        await queryInterface.createTable('OrderContacts', {
             ID: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            CustomerID: {
+            OrderID: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
             },
-            Code: {
+            Name: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            CodeTour: {
+            Phone: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            AdultTicket: {
+            Email: {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            ChildTicket: {
+            Note: {
                 type: Sequelize.STRING,
-                allowNull: false,
-            },
-            PaymentMethod: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-            },
-            TotalPrice: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-            },
-            CreatedDate: {
-                type: Sequelize.STRING,
-                allowNull: false,
-            },
-            StatusOrder: {
-                type: Sequelize.INTEGER,
                 allowNull: false,
             },
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Orders');
+        await queryInterface.dropTable('OrderContacts');
     },
 };

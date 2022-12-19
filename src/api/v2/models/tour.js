@@ -3,16 +3,12 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Tours extends Model {
         static associate(models) {
-            // Tours.belongsToMany(models.User, {
-            //     through: 'todo_users',
-            //     as: 'users',
-            //     foreignKey: 'todo_id',
-            // });
-            // Tours.hasMany(models.Todo_Comments, {
-            //     as: 'comments',
-            // });
+            Tours.hasMany(models.Feedbacks, {
+                as: 'feedbacks',
+            });
         }
     }
+
     Tours.init(
         {
             Code: DataTypes.STRING,
@@ -21,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
             ImageUrl: DataTypes.STRING,
             Status: DataTypes.INTEGER,
             isActive: DataTypes.INTEGER,
+            TourPrice: DataTypes.INTEGER,
+            DateStartTour: DataTypes.STRING,
             CreatedDate: DataTypes.STRING,
         },
         {

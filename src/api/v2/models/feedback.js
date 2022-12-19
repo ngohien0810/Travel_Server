@@ -3,20 +3,17 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Feedbacks extends Model {
         static associate(models) {
-            // Categories.belongsToMany(models.User, {
-            //     through: 'todo_users',
-            //     as: 'users',
-            //     foreignKey: 'todo_id',
-            // });
-            // Categories.hasMany(models.Todo_Comments, {
-            //     as: 'comments',
-            // });
+            Feedbacks.belongsTo(models.Tours, {
+                as: 'feedback',
+                foreignKey: 'TodoID',
+            });
         }
     }
     Feedbacks.init(
         {
             Name: DataTypes.STRING,
             Phone: DataTypes.INTEGER,
+            TodoID: DataTypes.INTEGER,
             Email: DataTypes.STRING,
             Note: DataTypes.STRING,
             Rate: DataTypes.INTEGER,

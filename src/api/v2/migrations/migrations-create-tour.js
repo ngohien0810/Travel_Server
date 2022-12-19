@@ -1,47 +1,43 @@
 'use strict';
 module.exports = {
     async up(queryInterface, Sequelize) {
-        await queryInterface.createTable('Feedbacks', {
+        await queryInterface.createTable('Tours', {
             ID: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            TourID: {
-                type: Sequelize.INTEGER,
-            },
-            Name: {
+            Code: {
                 type: Sequelize.STRING,
-                allowNull: false,
             },
-            Phone: {
-                type: Sequelize.INTEGER,
-                allowNull: false,
-            },
-            Email: {
+            Title: {
                 type: Sequelize.STRING,
-                allowNull: false,
             },
-            Note: {
+            Description: {
                 type: Sequelize.STRING,
-                allowNull: false,
             },
-            Rate: {
+            ImageUrl: {
+                type: Sequelize.STRING,
+            },
+            Status: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
             },
             isActive: {
                 type: Sequelize.INTEGER,
-                allowNull: false,
+            },
+            TourPrice: {
+                type: Sequelize.INTEGER,
+            },
+            DateStartTour: {
+                type: Sequelize.STRING,
             },
             CreatedDate: {
                 type: Sequelize.STRING,
-                allowNull: false,
             },
         });
     },
     async down(queryInterface, Sequelize) {
-        await queryInterface.dropTable('Feedbacks');
+        await queryInterface.dropTable('Tours');
     },
 };

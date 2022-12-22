@@ -15,6 +15,15 @@ const getToursService = async (title, limit, offset, filter, label) => {
         limit,
         offset,
         distinct: true,
+        // relication for join table feedback
+        include: [
+            {
+                model: db.Feedbacks,
+                as: 'feedbacks',
+                // attributes: ['Id', 'Rating', 'Comment', 'CreatedAt'],
+                required: false,
+            },
+        ],
     })
         .then((result) => {
             return result;

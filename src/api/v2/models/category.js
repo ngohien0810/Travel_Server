@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             Name: DataTypes.STRING,
             Status: DataTypes.INTEGER,
-            isActive: DataTypes.INTEGER,
+            IsActive: DataTypes.INTEGER,
             CreatedDate: DataTypes.STRING,
         },
         {
@@ -29,5 +29,4 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
     return Categories;
-    
 };

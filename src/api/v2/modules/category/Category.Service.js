@@ -26,14 +26,11 @@ const getCategoriesService = async (title, limit, offset, filter, label) => {
 
 // new category
 const createCategoryService = async (body) => {
-    const { Name, Description, Image, Label } = body;
     const category = await db.Categories.create({
-        Name,
-        Description,
-        Image,
-        Label,
-        CreatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
-        UpdatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+        ...body,
+        Status: 1,
+        IsActive: 1,
+        CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
     return category;
 };

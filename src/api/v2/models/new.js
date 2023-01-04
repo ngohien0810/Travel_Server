@@ -3,14 +3,10 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class News extends Model {
         static associate(models) {
-            // News.belongsToMany(models.User, {
-            //     through: 'todo_users',
-            //     as: 'users',
-            //     foreignKey: 'todo_id',
-            // });
-            // News.hasMany(models.Todo_Comments, {
-            //     as: 'comments',
-            // });
+            News.belongsTo(models.Categories, {
+                as: 'category',
+                foreignKey: 'CategoryID',
+            });
         }
     }
     News.init(
@@ -24,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             IsActive: DataTypes.INTEGER,
             CreatedDate: DataTypes.STRING,
             IsHome: DataTypes.INTEGER,
+            CategoryID: DataTypes.INTEGER,
         },
         {
             sequelize,

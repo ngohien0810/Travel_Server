@@ -5,6 +5,7 @@ const config = require('../../config');
 const categoryRoute = require('../v2/modules/category/Category.Route');
 const tourRoute = require('../v2/modules/tour/Tour.Route');
 const authRoute = require('../v2/modules/auth/Auth.Route');
+const newRoute = require('../v2/modules/new/New.Route');
 const homeRoute = require('../v2/modules/home/Home.Route');
 
 const router = express.Router();
@@ -25,6 +26,10 @@ const defaultRoutes = [
     {
         path: '/v2',
         route: tourRoute,
+    },
+    {
+        path: '/v2',
+        route: newRoute,
     },
     {
         path: '/v2',

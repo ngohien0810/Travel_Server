@@ -5,16 +5,45 @@ const { ApiError } = require('../../helpers');
 const db = require('../../models/index');
 
 // find all todos and pagination
-const getCategoriesService = async (title, limit, offset, filter, label) => {
+const getNewService = async (title, limit, offset, filter) => {
     var condition = title ? { Name: { [sequelize.Op.like]: `%${title}%` } } : null;
 
-    const filterWhere = {};
+    const filterWhere = {
+        // filter by category
+        CategoryID: { [sequelize.Op.eq]: filter?.category },
+        // filter by status
+        Status: { [sequelize.Op.eq]: filter?.status },
+        // filter ranger date createDate
+        CreatedDate: {
+            [sequelize.Op.between]: [filter?.date?.fromDate, filter?.date?.toDate],
+        },
+    };
 
-    return db.Categories.findAndCountAll({
+    if (!filter?.status) {
+        delete filterWhere.Status;
+    }
+
+    if (!filter?.fromDate) {
+        delete filterWhere.CreatedDate;
+    }
+
+    if (!filter?.category) {
+        delete filterWhere.CategoryID;
+    }
+
+    return db.News.findAndCountAll({
         where: { ...condition, ...filterWhere },
         limit,
         offset,
         distinct: true,
+        include: [
+            {
+                model: db.Categories,
+                as: 'category',
+                // attributes: ['Id', 'Rating', 'Comment', 'CreatedAt'],
+                required: false,
+            },
+        ],
     })
         .then((result) => {
             return result;
@@ -50,16 +79,16 @@ const updateCategoryService = async (id, body) => {
 };
 
 // delete category
-const deleteCategoryService = async (id) => {
-    const category = await db.Categories.destroy({
-        where: { Id: id },
+const deleteNewsService = async (id) => {
+    const newData = await db.News.destroy({
+        where: { ID: id },
     });
-    return category;
+    return newData;
 };
 
 module.exports = {
-    getCategoriesService,
-    createCategoryService,
-    updateCategoryService,
-    deleteCategoryService,
+    getNewService,
+    // createCategoryService,
+    // updateCategoryService,
+    deleteNewsService,
 };

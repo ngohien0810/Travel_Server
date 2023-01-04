@@ -3,14 +3,9 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class Categories extends Model {
         static associate(models) {
-            // Categories.belongsToMany(models.User, {
-            //     through: 'todo_users',
-            //     as: 'users',
-            //     foreignKey: 'todo_id',
-            // });
-            // Categories.hasMany(models.Todo_Comments, {
-            //     as: 'comments',
-            // });
+            Categories.hasMany(models.News, {
+                as: 'news',
+            });
         }
     }
     Categories.init(
@@ -19,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
             Status: DataTypes.INTEGER,
             IsActive: DataTypes.INTEGER,
             CreatedDate: DataTypes.STRING,
+            Discriminator: DataTypes.INTEGER,
         },
         {
             sequelize,

@@ -1,5 +1,11 @@
 const { catchAsync } = require('../../helpers');
-const { getNewService, deleteNewsService } = require('./New.Service');
+const {
+    getNewService,
+    deleteNewsService,
+    createNewService,
+    updateNewService,
+    detailNewService,
+} = require('./New.Service');
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 10;
@@ -26,14 +32,22 @@ const getNews = catchAsync(async (req, res) => {
 });
 
 //  creat new category
-const createCategory = catchAsync(async (req, res) => {
-    const category = await createCategoryService(req.body);
-    res.status(201).send(category);
+const createNew = catchAsync(async (req, res) => {
+    const newRes = await createNewService(req.body);
+    res.status(201).send(newRes);
+});
+
+// detail new
+const getNewsById = catchAsync(async (req, res) => {
+    const newRes = await detailNewService(req.params.id);
+    res.send({
+        data: newRes,
+    });
 });
 
 // update category
-const updateCategory = catchAsync(async (req, res) => {
-    const category = await updateCategoryService(req.params.id, req.body);
+const updateNews = catchAsync(async (req, res) => {
+    const category = await updateNewService(req.params.id, req.body);
     res.send(category);
 });
 
@@ -45,7 +59,8 @@ const deleteNews = catchAsync(async (req, res) => {
 
 module.exports = {
     getNews,
-    // createCategory,
-    // updateCategory,
+    createNew,
+    updateNews,
     deleteNews,
+    getNewsById,
 };

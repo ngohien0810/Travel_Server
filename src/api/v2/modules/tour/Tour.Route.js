@@ -5,6 +5,9 @@ const express = require('express');
 const TourController = require('./Tour.Controller');
 const router = express.Router();
 
-router.route('/tours').get(TourController.getTours);
+router.route('/tours').get(TourController.getTours).post(TourController.createTour);
+router.route('/tours/:id').put(TourController.updateTour).delete(TourController.deleteTour);
+router.route('/tours/destination').get(TourController.getDestination);
+router.route('/tours/destination/:id').delete(TourController.deleteDestination);
 
 module.exports = router;

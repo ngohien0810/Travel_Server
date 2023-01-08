@@ -6,14 +6,31 @@ const db = require('../../models/index');
 
 // find all todos and pagination
 const getToursService = async (title, limit, offset, filter, label) => {
-    var condition = title ? { Name: { [sequelize.Op.like]: `%${title}%` } } : null;
+    var condition = title ? { Title: { [sequelize.Op.like]: `%${title}%` } } : null;
 
-    const filterWhere = {};
+    const filterWhere = {
+        // filter by Status
+        Status: { [sequelize.Op.eq]: filter?.status },
+        // filter ranger date createDate
+        DateStartTour: {
+            [sequelize.Op.between]: [filter?.date?.fromDate, filter?.date?.toDate],
+        },
+    };
+
+    if (!filter?.status) {
+        delete filterWhere.Status;
+    }
+
+    if (!filter?.fromDate) {
+        delete filterWhere.DateStartTour;
+    }
 
     return db.Tours.findAndCountAll({
         where: { ...condition, ...filterWhere },
         limit,
         offset,
+        // sort CreatedDate
+        order: [['CreatedDate', 'DESC']],
         distinct: true,
         // relication for join table feedback
         include: [
@@ -33,49 +50,72 @@ const getToursService = async (title, limit, offset, filter, label) => {
         });
 };
 
+const getDestinationService = async (search, tour_id) => {
+    var condition = search ? { Name: { [sequelize.Op.like]: `%${search}%` } } : null;
+
+    return db.Destinations.findAll({
+        where: {
+            ...condition,
+            TourID: tour_id,
+        },
+    })
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            throw new ApiError(httpStatus.BAD_REQUEST, error);
+        });
+};
+
+const deleteDestinationService = async (id) => {
+    return db.Destinations.destroy({
+        where: { ID: id },
+    })
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            throw new ApiError(httpStatus.BAD_REQUEST, error);
+        });
+};
+
 // new category
-const createCategoryService = async (body) => {
-    const { Name, Description, Image, Label } = body;
-    const category = await db.Categories.create({
-        Name,
-        Description,
-        Image,
-        Label,
-        CreatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
-        UpdatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+const createTourService = async (body) => {
+    const category = await db.Tours.create({
+        ...body,
+        Status: 1,
+        IsActive: 1,
+        CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
     return category;
 };
 
 // update category
-const updateCategoryService = async (id, body) => {
-    const { Name, Description, Image, Label } = body;
-    const category = await db.Categories.update(
+const updateTourService = async (id, body) => {
+    const tours = await db.Tours.update(
         {
-            Name,
-            Description,
-            Image,
-            Label,
-            UpdatedAt: moment().format('YYYY-MM-DD HH:mm:ss'),
+            ...body,
         },
         {
             where: { Id: id },
         }
     );
-    return category;
+    return tours;
 };
 
 // delete category
-const deleteCategoryService = async (id) => {
-    const category = await db.Categories.destroy({
-        where: { Id: id },
+const deleteTourService = async (id) => {
+    const category = await db.Tours.destroy({
+        where: { ID: id },
     });
     return category;
 };
 
 module.exports = {
     getToursService,
-    createCategoryService,
-    updateCategoryService,
-    deleteCategoryService,
+    createTourService,
+    updateTourService,
+    deleteTourService,
+    getDestinationService,
+    deleteDestinationService,
 };

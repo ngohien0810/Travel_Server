@@ -5,7 +5,7 @@ const express = require('express');
 const NewController = require('./New.Controller');
 const router = express.Router();
 
-router.route('/news').get(NewController.getNews);
-router.route('/news/:id').delete(NewController.deleteNews);
+router.route('/news').get(NewController.getNews).post(NewController.createNew);
+router.route('/news/:id').delete(NewController.deleteNews).get(NewController.getNewsById).put(NewController.updateNews);
 
 module.exports = router;

@@ -35,6 +35,8 @@ const getNewService = async (title, limit, offset, filter) => {
         where: { ...condition, ...filterWhere },
         limit,
         offset,
+        // sort CreatedDate
+        order: [['CreatedDate', 'DESC']],
         distinct: true,
         include: [
             {
@@ -53,21 +55,42 @@ const getNewService = async (title, limit, offset, filter) => {
         });
 };
 
-// new category
-const createCategoryService = async (body) => {
-    const category = await db.Categories.create({
-        ...body,
+const detailNewService = async (id) => {
+    return db.News.findOne({
+        where: { ID: id },
+        include: [
+            {
+                model: db.Categories,
+                as: 'category',
+                // attributes: ['Id', 'Rating', 'Comment', 'CreatedAt'],
+                required: false,
+            },
+        ],
+    })
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            throw new ApiError(httpStatus.BAD_REQUEST, error);
+        });
+};
+
+// new new
+const createNewService = async (body) => {
+    const newData = await db.News.create({
         Status: 1,
         IsActive: 1,
-        Discriminator: 1,
+        TypePost: 1,
+        UserID: 1,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        ...body,
     });
-    return category;
+    return newData;
 };
 
 // update category
-const updateCategoryService = async (id, body) => {
-    const category = await db.Categories.update(
+const updateNewService = async (id, body) => {
+    const category = await db.News.update(
         {
             ...body,
         },
@@ -88,7 +111,9 @@ const deleteNewsService = async (id) => {
 
 module.exports = {
     getNewService,
-    // createCategoryService,
-    // updateCategoryService,
+    createNewService,
+    detailNewService,
+    updateNewService,
     deleteNewsService,
+    detailNewService,
 };

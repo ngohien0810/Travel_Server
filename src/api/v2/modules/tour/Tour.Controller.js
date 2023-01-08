@@ -4,6 +4,11 @@ const {
     createCategoryService,
     updateCategoryService,
     deleteCategoryService,
+    getDestinationService,
+    deleteDestinationService,
+    createTourService,
+    updateTourService,
+    deleteTourService,
 } = require('./Tour.Service');
 
 const getPagination = (page, size) => {
@@ -22,35 +27,55 @@ const getPagingData = (data, page, limit, field) => {
 
 // get all categories
 const getTours = catchAsync(async (req, res) => {
-    const { page, size, title, filter, label } = req.query;
+    const { page, size, search, filter, label } = req.query;
     const { limit, offset } = getPagination(page - 1, size);
 
-    const todos = await getToursService(title, limit, offset, filter, label);
+    const todos = await getToursService(search, limit, offset, req.query, label);
 
     res.send(getPagingData(todos, page, limit, 'data'));
 });
 
+const getDestination = catchAsync(async (req, res) => {
+    const { search, tour_id } = req.query;
+
+    const destinations = await getDestinationService(search, tour_id);
+
+    res.send({ data: destinations });
+});
+
+const deleteDestination = catchAsync(async (req, res) => {
+    const { id } = req.params;
+
+    const destinations = await deleteDestinationService(id);
+
+    res.send({ data: destinations });
+});
+
 //  creat new category
-const createCategory = catchAsync(async (req, res) => {
-    const category = await createCategoryService(req.body);
-    res.status(201).send(category);
+const createTour = catchAsync(async (req, res) => {
+    const tourRes = await createTourService(req.body);
+    res.status(201).send({
+        data: tourRes,
+    });
 });
 
 // update category
-const updateCategory = catchAsync(async (req, res) => {
-    const category = await updateCategoryService(req.params.id, req.body);
-    res.send(category);
+const updateTour = catchAsync(async (req, res) => {
+    const tour = await updateTourService(req.params.id, req.body);
+    res.send(tour);
 });
 
 // delete category
-const deleteCategory = catchAsync(async (req, res) => {
-    await deleteCategoryService(req.params.id);
+const deleteTour = catchAsync(async (req, res) => {
+    await deleteTourService(req.params.id);
     res.status(204).send();
 });
 
 module.exports = {
     getTours,
-    createCategory,
-    updateCategory,
-    deleteCategory,
+    createTour,
+    updateTour,
+    deleteTour,
+    getDestination,
+    deleteDestination,
 };

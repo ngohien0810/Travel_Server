@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route('/tours').get(TourController.getTours).post(TourController.createTour);
 router.route('/tours/:id').put(TourController.updateTour).delete(TourController.deleteTour);
-router.route('/tours/destination').get(TourController.getDestination);
-router.route('/tours/destination/:id').delete(TourController.deleteDestination);
+router.route('/tours/destination').get(TourController.getDestination).post(TourController.createDestination);
+router.route('/tours/destination/:id').put(TourController.updateDestination).delete(TourController.deleteDestination);
 
 module.exports = router;

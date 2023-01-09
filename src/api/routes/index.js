@@ -7,6 +7,8 @@ const tourRoute = require('../v2/modules/tour/Tour.Route');
 const authRoute = require('../v2/modules/auth/Auth.Route');
 const newRoute = require('../v2/modules/new/New.Route');
 const homeRoute = require('../v2/modules/home/Home.Route');
+const userRoute = require('../v2/modules/user/User.Route');
+const accountRoute = require('../v2/modules/account/Account.Route');
 
 const router = express.Router();
 
@@ -38,6 +40,14 @@ const defaultRoutes = [
     {
         path: '/v2',
         route: homeRoute,
+    },
+    {
+        path: '/v2',
+        route: userRoute,
+    },
+    {
+        path: '/v2',
+        route: accountRoute,
     },
 ];
 

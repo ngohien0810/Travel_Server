@@ -1,32 +1,50 @@
-const db = require('../../models/index');
-const Sequelize = require('sequelize');
 const { catchAsync } = require('../../helpers');
-const getUser = async (req, res) => {
-    try {
-        // fi
-        // const listLabels = await db.TodoLabels.findAll({ raw: true });
-        // // find all user
-        // db.Todos.findAll().then((result) => {
-        //   result.forEach(async (todo) => {
-        //     todo.dataValues.labels = JSON.parse(todo.dataValues.labels).map(
-        //       (label_id) => {
-        //         const data = listLabels.find((l) => l.id === Number(label_id));
-        //         return data;
-        //       }
-        //     );
-        //   });
-        //   res.json(result);
-        // });
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+const db = require('../../models/index');
+
+const { getUsersService } = require('./User.Service');
+
+const getPagination = (page, size) => {
+    const limit = size ? +size : 10;
+    const offset = page ? page * limit : 0;
+    return { limit, offset };
 };
 
-const createUser = (user) => {
-    db.User.create({ ...user });
+const getPagingData = (data, page, limit, field) => {
+    const { count: totalItems, rows } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { totalItems, [field]: rows, totalPages, currentPage };
 };
+
+// get all categories
+const getUsers = catchAsync(async (req, res) => {
+    const { page, size, search, label } = req.query;
+    const { limit, offset } = getPagination(page - 1, size);
+
+    const customers = await getUsersService(search, limit, offset, req.query, label);
+
+    res.send(getPagingData(customers, page, limit, 'data'));
+});
+
+const changeStatus = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const { Status } = req.body;
+    const user = await db.Customers.update(
+        {
+            Status,
+        },
+        {
+            where: { ID: id },
+        }
+    );
+    res.send({
+        status: 1,
+        data: user,
+    });
+});
 
 module.exports = {
-    getUser,
-    createUser,
+    getUsers,
+    changeStatus,
 };

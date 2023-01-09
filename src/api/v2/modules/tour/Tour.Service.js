@@ -67,6 +67,32 @@ const getDestinationService = async (search, tour_id) => {
         });
 };
 
+const createDestinationService = async (body) => {
+    return db.Destinations.create({
+        ...body,
+        Status: 1,
+        IsActive: 1,
+        CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+    })
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            throw new ApiError(httpStatus.BAD_REQUEST, error);
+        });
+};
+
+const updateDestinationService = async (body, id) => {
+    return await db.Destinations.update(
+        {
+            ...body,
+        },
+        {
+            where: { Id: id },
+        }
+    );
+};
+
 const deleteDestinationService = async (id) => {
     return db.Destinations.destroy({
         where: { ID: id },
@@ -117,5 +143,7 @@ module.exports = {
     updateTourService,
     deleteTourService,
     getDestinationService,
+    createDestinationService,
+    updateDestinationService,
     deleteDestinationService,
 };

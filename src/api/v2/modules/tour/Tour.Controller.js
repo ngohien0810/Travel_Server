@@ -9,6 +9,8 @@ const {
     createTourService,
     updateTourService,
     deleteTourService,
+    createDestinationService,
+    updateDestinationService,
 } = require('./Tour.Service');
 
 const getPagination = (page, size) => {
@@ -41,6 +43,22 @@ const getDestination = catchAsync(async (req, res) => {
     const destinations = await getDestinationService(search, tour_id);
 
     res.send({ data: destinations });
+});
+
+const createDestination = catchAsync(async (req, res) => {
+    const destination = await createDestinationService(req.body);
+    res.send({
+        status: 1,
+        data: destination,
+    });
+});
+
+const updateDestination = catchAsync(async (req, res) => {
+    const destination = await updateDestinationService(req.body, req.params.id);
+    res.send({
+        status: 1,
+        data: destination,
+    });
 });
 
 const deleteDestination = catchAsync(async (req, res) => {
@@ -77,5 +95,7 @@ module.exports = {
     updateTour,
     deleteTour,
     getDestination,
+    createDestination,
+    updateDestination,
     deleteDestination,
 };

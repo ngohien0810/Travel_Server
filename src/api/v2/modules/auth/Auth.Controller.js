@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const { catchAsync } = require('../../helpers');
-const { loginUserWithPhoneAndPassword, getUserById } = require('./Auth.Service');
+const { loginUserWithPhoneAndPassword, getUserById, loginUserWithPhoneAndPasswordCustomer } = require('./Auth.Service');
 const { createUserService } = require('./User.Service');
 
 // register
@@ -22,8 +22,15 @@ const getMe = catchAsync(async (req, res) => {
     res.send({ user });
 });
 
+const loginApp = catchAsync(async (req, res) => {
+    const { Phone, Password } = req.body;
+    const user = await loginUserWithPhoneAndPasswordCustomer(Phone, Password);
+    res.send({ user });
+});
+
 module.exports = {
     register,
     login,
     getMe,
+    loginApp,
 };

@@ -16,6 +16,20 @@ const loginUserWithPhoneAndPassword = async (phone, password) => {
     return user;
 };
 
+const loginUserWithPhoneAndPasswordCustomer = async (phone, password) => {
+    // const user = await userService.getUserByEmail(email);
+    // get user by email
+    const user = await db.Customers.findOne({
+        where: {
+            Phone: phone,
+        },
+    });
+    if (!user || !(await user.validPassword(password))) {
+        throw new ApiError(httpStatus.UNAUTHORIZED, 'Số điện thoại hoặc mật khẩu không chính xác.');
+    }
+    return user;
+};
+
 const getUserById = async (id) => {
     return db.Users.findByPk(id);
 };
@@ -23,4 +37,5 @@ const getUserById = async (id) => {
 module.exports = {
     loginUserWithPhoneAndPassword,
     getUserById,
+    loginUserWithPhoneAndPasswordCustomer,
 };

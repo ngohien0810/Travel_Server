@@ -1,5 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
+const bcryptjs = require('bcryptjs');
+
 module.exports = (sequelize, DataTypes) => {
     class Customers extends Model {
         static associate(models) {
@@ -41,5 +43,9 @@ module.exports = (sequelize, DataTypes) => {
             // createdAt: 'CreatedDate',
         }
     );
+
+    Customers.prototype.validPassword = async function (password) {
+        return await bcryptjs.compare(password, this.Password);
+    };
     return Customers;
 };

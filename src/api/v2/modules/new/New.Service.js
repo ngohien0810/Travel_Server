@@ -6,7 +6,7 @@ const db = require('../../models/index');
 
 // find all todos and pagination
 const getNewService = async (title, limit, offset, filter) => {
-    var condition = title ? { Name: { [sequelize.Op.like]: `%${title}%` } } : null;
+    var condition = title ? { Title: { [sequelize.Op.like]: `%${title}%` } } : null;
 
     const filterWhere = {
         // filter by category

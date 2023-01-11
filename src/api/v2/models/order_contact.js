@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
                 // as: 'users',
                 foreignKey: 'OrderID',
             });
+
             // OrderContact.hasMany(models.Todo_Comments, {
             //     as: 'comments',
             // });

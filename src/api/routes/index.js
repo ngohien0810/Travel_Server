@@ -9,6 +9,7 @@ const newRoute = require('../v2/modules/new/New.Route');
 const homeRoute = require('../v2/modules/home/Home.Route');
 const userRoute = require('../v2/modules/user/User.Route');
 const accountRoute = require('../v2/modules/account/Account.Route');
+const orderRoute = require('../v2/modules/order/Order.Route');
 
 const router = express.Router();
 
@@ -48,6 +49,10 @@ const defaultRoutes = [
     {
         path: '/v2',
         route: accountRoute,
+    },
+    {
+        path: '/v2',
+        route: orderRoute,
     },
 ];
 

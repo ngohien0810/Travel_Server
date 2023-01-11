@@ -9,6 +9,8 @@ const getOrdersService = async (title, limit, offset) => {
     var condition = {
         [sequelize.Op.or]: [
             { CodeTour: { [sequelize.Op.like]: `%${title}%` } },
+            { Code: { [sequelize.Op.like]: `%${title}%` } },
+
             // { Phone: { [sequelize.Op.like]: `%${title}%` } },
         ],
     };
@@ -20,6 +22,13 @@ const getOrdersService = async (title, limit, offset) => {
         limit,
         offset,
         distinct: true,
+        // includes Customers
+        include: [
+            {
+                model: db.Customers,
+                as: 'customer',
+            },
+        ],
     })
         .then((result) => {
             return result;
@@ -36,6 +45,18 @@ const createOrderService = async (body) => {
 
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
+    return order;
+};
+
+const changeStatusService = async (id, StatusOrder) => {
+    const order = await db.Orders.update(
+        {
+            StatusOrder,
+        },
+        {
+            where: { ID: id },
+        }
+    );
     return order;
 };
 
@@ -63,4 +84,5 @@ const deleteCategoryService = async (id) => {
 module.exports = {
     getOrdersService,
     createOrderService,
+    changeStatusService,
 };

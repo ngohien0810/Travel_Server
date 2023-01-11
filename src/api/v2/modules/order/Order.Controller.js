@@ -1,5 +1,5 @@
 const { catchAsync } = require('../../helpers');
-const { getOrdersService, createOrderService } = require('./Order.Service');
+const { getOrdersService, createOrderService, changeStatusService } = require('./Order.Service');
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 10;
@@ -31,6 +31,11 @@ const createOrder = catchAsync(async (req, res) => {
     res.status(201).send(order);
 });
 
+const changeStatus = catchAsync(async (req, res) => {
+    const order = await changeStatusService(req.params.id, req.body?.StatusOrder);
+    res.send(order);
+});
+
 // update category
 const updateCategory = catchAsync(async (req, res) => {
     const category = await updateCategoryService(req.params.id, req.body);
@@ -46,4 +51,5 @@ const deleteCategory = catchAsync(async (req, res) => {
 module.exports = {
     getOrders,
     createOrder,
+    changeStatus,
 };

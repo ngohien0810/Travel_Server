@@ -5,11 +5,18 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             Orders.belongsTo(models.Customers, {
                 // through: 'todo_users',
-                // as: 'users',
+                as: 'customer',
                 foreignKey: 'CustomerID',
             });
+
             // Orders.hasMany(models.Todo_Comments, {
             //     as: 'comments',
+            // });
+
+            // one to one relationship order and orderContact models
+            // Orders.hasOne(models.OrderContacts, {
+            //     as: 'orderContact',
+            //     foreignKey: 'OrderID',
             // });
         }
     }
@@ -18,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             Code: DataTypes.STRING,
             CodeTour: DataTypes.STRING,
             CustomerID: DataTypes.INTEGER,
+            // OrderID: DataTypes.INTEGER,
             AdultTicket: DataTypes.STRING,
             ChildTicket: DataTypes.STRING,
             PaymentMethod: DataTypes.INTEGER,

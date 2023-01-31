@@ -37,9 +37,9 @@ if (config.env !== 'test') {
 // parse json request body
 app.use(express.json());
 // parse urlencoded request body
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
-app.use(express.text({ type: 'text/html' }));
+// app.use(express.text({ type: 'text/html' }));
 // sanitize request data
 app.use(xss());
 app.use(mongoSanitize());

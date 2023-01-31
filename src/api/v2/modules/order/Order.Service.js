@@ -40,9 +40,9 @@ const getOrdersService = async (title, limit, offset) => {
 
 // new orders
 const createOrderService = async (body) => {
+    console.log('🚀 ~ file: Order.Service.js:43 ~ createOrderService ~ body', body);
     const order = await db.Orders.create({
         ...body,
-
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
     return order;

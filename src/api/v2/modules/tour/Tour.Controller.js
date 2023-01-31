@@ -1,7 +1,7 @@
 const { catchAsync } = require('../../helpers');
 const {
     getToursService,
-    createCategoryService,
+    getDetailTourService,
     updateCategoryService,
     deleteCategoryService,
     getDestinationService,
@@ -35,6 +35,12 @@ const getTours = catchAsync(async (req, res) => {
     const todos = await getToursService(search, limit, offset, req.query, label);
 
     res.send(getPagingData(todos, page, limit, 'data'));
+});
+
+const detailTour = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const tour = await getDetailTourService(id);
+    res.send(tour);
 });
 
 const getDestination = catchAsync(async (req, res) => {
@@ -98,4 +104,5 @@ module.exports = {
     createDestination,
     updateDestination,
     deleteDestination,
+    detailTour,
 };

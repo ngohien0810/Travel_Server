@@ -3,7 +3,9 @@ const sequelize = require('sequelize');
 const httpStatus = require('http-status');
 const { ApiError } = require('../../helpers');
 const db = require('../../models/index');
-
+function decodeHTMLEntities(rawStr) {
+    return rawStr.replace(/&#(\d+);/g, (match, dec) => `${String.fromCharCode(dec)}`);
+}
 // find all todos and pagination
 const getToursService = async (title, limit, offset, filter, label) => {
     var condition = title ? { Title: { [sequelize.Op.like]: `%${title}%` } } : null;
@@ -67,6 +69,20 @@ const getDestinationService = async (search, tour_id) => {
         });
 };
 
+const getDetailTourService = async (id) => {
+    return db.Tours.findOne({
+        where: { Id: id },
+        include: [
+            {
+                model: db.Feedbacks,
+                as: 'feedbacks',
+                // attributes: ['Id', 'Rating', 'Comment', 'CreatedAt'],
+                required: false,
+            },
+        ],
+    });
+};
+
 const createDestinationService = async (body) => {
     return db.Destinations.create({
         ...body,
@@ -107,20 +123,26 @@ const deleteDestinationService = async (id) => {
 
 // new category
 const createTourService = async (body) => {
+    const des = decodeHTMLEntities(body.Description).replace(/&lt;/g, '<');
+
     const category = await db.Tours.create({
         ...body,
         Status: 1,
         IsActive: 1,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+        Description: des,
     });
     return category;
 };
 
 // update category
 const updateTourService = async (id, body) => {
+    const des = decodeHTMLEntities(body.Description).replace(/&lt;/g, '<');
+
     const tours = await db.Tours.update(
         {
             ...body,
+            Description: des,
         },
         {
             where: { Id: id },
@@ -146,4 +168,5 @@ module.exports = {
     createDestinationService,
     updateDestinationService,
     deleteDestinationService,
+    getDetailTourService,
 };

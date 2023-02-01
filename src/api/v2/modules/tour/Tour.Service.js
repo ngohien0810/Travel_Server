@@ -6,6 +6,27 @@ const db = require('../../models/index');
 function decodeHTMLEntities(rawStr) {
     return rawStr.replace(/&#(\d+);/g, (match, dec) => `${String.fromCharCode(dec)}`);
 }
+
+const updateViewToursService = (id) => {
+    console.log('🚀 ~ file: Tour.Service.js:11 ~ updateViewToursService ~ id', id);
+    return db.Tours.update(
+        {
+            Views: sequelize.literal('Views + 1'),
+        },
+        {
+            where: {
+                Id: id,
+            },
+        }
+    )
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            throw new ApiError(httpStatus.BAD_REQUEST, error);
+        });
+};
+
 // find all todos and pagination
 const getToursService = async (title, limit, offset, filter, label) => {
     var condition = title ? { Title: { [sequelize.Op.like]: `%${title}%` } } : null;
@@ -41,6 +62,8 @@ const getToursService = async (title, limit, offset, filter, label) => {
                 as: 'feedbacks',
                 // attributes: ['Id', 'Rating', 'Comment', 'CreatedAt'],
                 required: false,
+                // sort CreatedDate
+                order: [['CreatedDate', 'DESC']],
             },
         ],
     })
@@ -131,6 +154,7 @@ const createTourService = async (body) => {
         IsActive: 1,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         Description: des,
+        Views: 0,
     });
     return category;
 };
@@ -159,6 +183,16 @@ const deleteTourService = async (id) => {
     return category;
 };
 
+// createFeedbackService
+const createFeedbackService = async (body) => {
+    const feedback = await db.Feedbacks.create({
+        ...body,
+        isActive: 1,
+        CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+    });
+    return feedback;
+};
+
 module.exports = {
     getToursService,
     createTourService,
@@ -169,4 +203,6 @@ module.exports = {
     updateDestinationService,
     deleteDestinationService,
     getDetailTourService,
+    updateViewToursService,
+    createFeedbackService,
 };

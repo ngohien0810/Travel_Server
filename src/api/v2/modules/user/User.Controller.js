@@ -27,6 +27,14 @@ const getUsers = catchAsync(async (req, res) => {
     res.send(getPagingData(customers, page, limit, 'data'));
 });
 
+const detailUser = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const user = await db.Customers.findOne({
+        where: { ID: id },
+    });
+    res.send(user);
+});
+
 const changeStatus = catchAsync(async (req, res) => {
     const { id } = req.params;
     const { Status } = req.body;
@@ -47,4 +55,5 @@ const changeStatus = catchAsync(async (req, res) => {
 module.exports = {
     getUsers,
     changeStatus,
+    detailUser,
 };

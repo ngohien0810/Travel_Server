@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
             TourPrice: DataTypes.INTEGER,
             DateStartTour: DataTypes.STRING,
             CreatedDate: DataTypes.STRING,
+            Views: DataTypes.INTEGER,
         },
         {
             sequelize,

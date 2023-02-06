@@ -83,13 +83,7 @@ const getDestinationService = async (search, tour_id) => {
             ...condition,
             TourID: tour_id,
         },
-    })
-        .then((result) => {
-            return result;
-        })
-        .catch((error) => {
-            throw new ApiError(httpStatus.BAD_REQUEST, error);
-        });
+    });
 };
 
 const getDetailTourService = async (id) => {

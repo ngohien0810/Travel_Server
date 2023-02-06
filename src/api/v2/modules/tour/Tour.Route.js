@@ -12,8 +12,9 @@ router
     .put(TourController.updateTour)
     .delete(TourController.deleteTour)
     .get(TourController.detailTour);
-router.route('/tours/destination').get(TourController.getDestination).post(TourController.createDestination);
-router.route('/tours/destination/:id').put(TourController.updateDestination).delete(TourController.deleteDestination);
+
+router.route('/destination').get(TourController.getDestination).post(TourController.createDestination);
+router.route('/destination/:id').put(TourController.updateDestination).delete(TourController.deleteDestination);
 
 // feedback
 router.route('/feedback').post(TourController.createFeedback);

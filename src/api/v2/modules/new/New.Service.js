@@ -3,7 +3,9 @@ const sequelize = require('sequelize');
 const httpStatus = require('http-status');
 const { ApiError } = require('../../helpers');
 const db = require('../../models/index');
-
+function decodeHTMLEntities(rawStr) {
+    return rawStr.replace(/&#(\d+);/g, (match, dec) => `${String.fromCharCode(dec)}`);
+}
 // find all todos and pagination
 const getNewService = async (title, limit, offset, filter) => {
     var condition = title ? { Title: { [sequelize.Op.like]: `%${title}%` } } : null;
@@ -77,6 +79,8 @@ const detailNewService = async (id) => {
 
 // new new
 const createNewService = async (body) => {
+    const des = decodeHTMLEntities(body.Description).replace(/&lt;/g, '<');
+
     const newData = await db.News.create({
         Status: 1,
         IsActive: 1,
@@ -84,15 +88,27 @@ const createNewService = async (body) => {
         UserID: 1,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
         ...body,
+        Description: des,
     });
     return newData;
 };
 
 // update category
 const updateNewService = async (id, body) => {
+    const des = body?.Description && decodeHTMLEntities(body?.Description)?.replace(/&lt;/g, '<');
+
+    const dataSave = {
+        Description: des,
+    };
+
+    if (!body.Description) {
+        delete dataSave.Description;
+    }
+
     const category = await db.News.update(
         {
             ...body,
+            ...dataSave,
         },
         {
             where: { Id: id },

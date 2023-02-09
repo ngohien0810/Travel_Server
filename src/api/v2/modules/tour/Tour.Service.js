@@ -8,7 +8,6 @@ function decodeHTMLEntities(rawStr) {
 }
 
 const updateViewToursService = (id) => {
-    console.log('🚀 ~ file: Tour.Service.js:11 ~ updateViewToursService ~ id', id);
     return db.Tours.update(
         {
             Views: sequelize.literal('Views + 1'),

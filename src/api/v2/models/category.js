@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             Name: DataTypes.STRING,
             Status: DataTypes.INTEGER,
             IsActive: DataTypes.INTEGER,
+            ImageUrl: DataTypes.STRING,
             CreatedDate: DataTypes.STRING,
             Discriminator: DataTypes.INTEGER,
         },

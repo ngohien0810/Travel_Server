@@ -41,7 +41,6 @@ const getTours = catchAsync(async (req, res) => {
     const { limit, offset } = getPagination(page - 1, size);
 
     const todos = await getToursService(search, limit, offset, req.query, label);
-    console.log('🚀 ~ file: Tour.Controller.js:44 ~ getTours ~ todos', todos);
 
     res.send(getPagingData(todos, page, limit, 'data'));
 });

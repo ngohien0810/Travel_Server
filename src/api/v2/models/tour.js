@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             DateStartTour: DataTypes.STRING,
             CreatedDate: DataTypes.STRING,
             Views: DataTypes.INTEGER,
+            IsHome: DataTypes.INTEGER,
         },
         {
             sequelize,

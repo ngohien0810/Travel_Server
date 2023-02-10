@@ -8,6 +8,7 @@ const authRoute = require('../v2/modules/auth/Auth.Route');
 const newRoute = require('../v2/modules/new/New.Route');
 const homeRoute = require('../v2/modules/home/Home.Route');
 const userRoute = require('../v2/modules/user/User.Route');
+const favouriRoute = require('../v2/modules/favourite/Favourite.Route');
 const accountRoute = require('../v2/modules/account/Account.Route');
 const orderRoute = require('../v2/modules/order/Order.Route');
 
@@ -53,6 +54,10 @@ const defaultRoutes = [
     {
         path: '/v2',
         route: orderRoute,
+    },
+    {
+        path: '/v2',
+        route: favouriRoute,
     },
 ];
 

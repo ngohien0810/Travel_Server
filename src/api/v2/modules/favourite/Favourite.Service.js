@@ -20,6 +20,13 @@ const getFavouritesService = async (title, limit, offset, filter, user_id) => {
             {
                 model: db.Tours,
                 as: 'tour',
+                // include feedbacks to tours
+                include: [
+                    {
+                        model: db.Feedbacks,
+                        as: 'feedbacks',
+                    },
+                ],
             },
             {
                 model: db.Customers,

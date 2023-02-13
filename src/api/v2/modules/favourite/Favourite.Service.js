@@ -5,8 +5,10 @@ const { ApiError } = require('../../helpers');
 const db = require('../../models/index');
 
 // find all todos and pagination
-const getFavouritesService = async (title, limit, offset, filter, label) => {
-    const filterWhere = {};
+const getFavouritesService = async (title, limit, offset, filter, user_id) => {
+    const filterWhere = {
+        User_Id: user_id,
+    };
 
     return db.Favourites.findAndCountAll({
         where: { ...filterWhere },
@@ -33,16 +35,12 @@ const getFavouritesService = async (title, limit, offset, filter, label) => {
         });
 };
 
-// new category
-const createCategoryService = async (body) => {
-    const category = await db.Categories.create({
+// new favourite
+const createfavouritesService = async (body) => {
+    const favourite = await db.Favourites.create({
         ...body,
-        Status: 1,
-        IsActive: 1,
-        Discriminator: 1,
-        CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
-    return category;
+    return favourite;
 };
 
 // update category
@@ -59,16 +57,16 @@ const updateCategoryService = async (id, body) => {
 };
 
 // delete category
-const deleteCategoryService = async (id) => {
-    const category = await db.Categories.destroy({
+const deleteFavouriteService = async (id) => {
+    const favourite = await db.Favourites.destroy({
         where: { Id: id },
     });
-    return category;
+    return favourite;
 };
 
 module.exports = {
     getFavouritesService,
-    // createCategoryService,
-    // updateCategoryService,
+    createfavouritesService,
+    deleteFavouriteService,
     // deleteCategoryService,
 };

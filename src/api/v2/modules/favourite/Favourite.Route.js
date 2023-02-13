@@ -5,7 +5,7 @@ const express = require('express');
 const FavouriteController = require('./Favourite.Controller');
 const router = express.Router();
 
-router.route('/favourites').get(FavouriteController.getFavourites);
-// router.route('/categories/:id').put(CategoryController.updateCategory).delete(CategoryController.deleteCategory);
+router.route('/favourites').get(FavouriteController.getFavourites).post(FavouriteController.createFavourites);
+router.route('/favourites/:id').delete(FavouriteController.deleteFavourite);
 
 module.exports = router;

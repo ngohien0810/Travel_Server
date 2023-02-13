@@ -1,5 +1,5 @@
 const { catchAsync } = require('../../helpers');
-const { getFavouritesService } = require('./Favourite.Service');
+const { getFavouritesService, createfavouritesService, deleteFavouriteService } = require('./Favourite.Service');
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 10;
@@ -17,19 +17,20 @@ const getPagingData = (data, page, limit, field) => {
 
 // get all favourites
 const getFavourites = catchAsync(async (req, res) => {
-    const { page, size, title, filter, label } = req.query;
+    console.log('req.query', req.query);
+    const { page, size, title, params, user_id } = req.query;
     const { limit, offset } = getPagination(page - 1, size);
 
-    const todos = await getFavouritesService(title, limit, offset, filter, label);
+    const favourites = await getFavouritesService(title, limit, offset, params, user_id);
 
-    res.send(getPagingData(todos, page, limit, 'data'));
+    res.send(getPagingData(favourites, page, limit, 'data'));
 });
 
-// //  creat new category
-// const createCategory = catchAsync(async (req, res) => {
-//     const category = await createCategoryService(req.body);
-//     res.status(201).send(category);
-// });
+//  creat new favourites
+const createFavourites = catchAsync(async (req, res) => {
+    const favourite = await createfavouritesService(req.body);
+    res.status(201).send(favourite);
+});
 
 // // update category
 // const updateCategory = catchAsync(async (req, res) => {
@@ -37,15 +38,15 @@ const getFavourites = catchAsync(async (req, res) => {
 //     res.send(category);
 // });
 
-// // delete category
-// const deleteCategory = catchAsync(async (req, res) => {
-//     await deleteCategoryService(req.params.id);
-//     res.status(204).send();
-// });
+// delete favourite
+const deleteFavourite = catchAsync(async (req, res) => {
+    await deleteFavouriteService(req.params.id);
+    res.status(204).send();
+});
 
 module.exports = {
     getFavourites,
-    // createCategory,
-    // updateCategory,
+    createFavourites,
+    deleteFavourite,
     // deleteCategory,
 };

@@ -23,10 +23,10 @@ const getPagingData = (data, page, limit, field) => {
 
 // get all categories
 const getNews = catchAsync(async (req, res) => {
-    const { page, size, search } = req.query;
+    const { page, size, search, limit: limitQuery } = req.query;
     const { limit, offset } = getPagination(page - 1, size);
 
-    const news = await getNewService(search, limit, offset, req.query);
+    const news = await getNewService(search, limitQuery == 99 ? 99 : limit, offset, req.query);
 
     res.send(getPagingData(news, page, limit, 'data'));
 });

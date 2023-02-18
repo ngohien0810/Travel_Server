@@ -1,5 +1,10 @@
 const { catchAsync } = require('../../helpers');
-const { getAccountService } = require('./Account.Service');
+const {
+    getAccountService,
+    createAccountService,
+    deleteAccountService,
+    updateAccountService,
+} = require('./Account.Service');
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 10;
@@ -26,23 +31,26 @@ const getAccounts = catchAsync(async (req, res) => {
 });
 
 //  creat new category
-const createCategory = catchAsync(async (req, res) => {
-    const category = await createCategoryService(req.body);
-    res.status(201).send(category);
+const createAccount = catchAsync(async (req, res) => {
+    const account = await createAccountService(req.body);
+    res.status(201).send(account);
 });
 
 // update category
-const updateCategory = catchAsync(async (req, res) => {
-    const category = await updateCategoryService(req.params.id, req.body);
-    res.send(category);
+const updateAccount = catchAsync(async (req, res) => {
+    const account = await updateAccountService(req.params.id, req.body);
+    res.send(account);
 });
 
 // delete category
-const deleteCategory = catchAsync(async (req, res) => {
-    await deleteCategoryService(req.params.id);
+const deleteAccount = catchAsync(async (req, res) => {
+    await deleteAccountService(req.params.id);
     res.status(204).send();
 });
 
 module.exports = {
     getAccounts,
+    createAccount,
+    updateAccount,
+    deleteAccount,
 };

@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             Role: DataTypes.INTEGER,
             Address: DataTypes.STRING,
             Status: DataTypes.INTEGER,
-            isActive: DataTypes.INTEGER,
+            IsActive: DataTypes.INTEGER,
             CreatedDate: DataTypes.STRING,
         },
         {

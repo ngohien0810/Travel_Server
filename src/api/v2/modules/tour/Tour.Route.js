@@ -11,7 +11,8 @@ router
     .route('/tours/:id')
     .put(TourController.updateTour)
     .delete(TourController.deleteTour)
-    .get(TourController.detailTour);
+    .get(TourController.detailTour)
+    .patch(TourController.updateStatusTour);
 
 router.route('/destination').get(TourController.getDestination).post(TourController.createDestination);
 router.route('/destination/:id').put(TourController.updateDestination).delete(TourController.deleteDestination);

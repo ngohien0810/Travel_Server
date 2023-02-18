@@ -5,7 +5,7 @@ const { ApiError } = require('../../helpers');
 const db = require('../../models/index');
 
 // find all todos and pagination
-const getOrdersService = async (title, limit, offset) => {
+const getOrdersService = async (title, limit, offset, filter) => {
     var condition = {
         [sequelize.Op.or]: [
             { CodeTour: { [sequelize.Op.like]: `%${title}%` } },
@@ -15,7 +15,31 @@ const getOrdersService = async (title, limit, offset) => {
         ],
     };
 
-    const filterWhere = {};
+    const filterWhere = {
+        // filter by Status
+        StatusOrder: { [sequelize.Op.eq]: filter?.status },
+        // filter ranger date createDate
+
+        CreatedDate: {
+            // [sequelize.Op.between]: [
+            //     sequelize.literal(`DATE('${filter?.date?.fromDate}')`),
+            //     sequelize.literal(`DATE('${filter?.date?.toDate}')`),
+            // ],
+            [sequelize.Op.and]: [
+                sequelize.fn('DATE', sequelize.col('orders.CreatedDate')), // Convert string to DATE
+                { [sequelize.Op.gte]: filter?.fromDate },
+                { [sequelize.Op.lte]: filter?.toDate },
+            ],
+        },
+    };
+
+    if (!filter?.status) {
+        delete filterWhere.StatusOrder;
+    }
+
+    if (!filter?.fromDate || !filter?.toDate) {
+        delete filterWhere.CreatedDate;
+    }
 
     return db.Orders.findAndCountAll({
         where: { ...condition, ...filterWhere },

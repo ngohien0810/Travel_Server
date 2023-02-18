@@ -5,7 +5,7 @@ const express = require('express');
 const AccountController = require('./Account.Controller');
 const router = express.Router();
 
-router.route('/accounts').get(AccountController.getAccounts);
-// router.route('/accounts/:id').put(AccountController.updateCategory).delete(AccountController.deleteCategory);
+router.route('/accounts').get(AccountController.getAccounts).post(AccountController.createAccount);
+router.route('/accounts/:id').delete(AccountController.deleteAccount).put(AccountController.updateAccount);
 
 module.exports = router;

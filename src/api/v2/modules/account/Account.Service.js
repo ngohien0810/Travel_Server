@@ -3,6 +3,7 @@ const sequelize = require('sequelize');
 const httpStatus = require('http-status');
 const { ApiError } = require('../../helpers');
 const db = require('../../models/index');
+const bcryptjs = require('bcryptjs');
 
 // find all todos and pagination
 const getAccountService = async (title, limit, offset, filter, label) => {
@@ -38,20 +39,25 @@ const getAccountService = async (title, limit, offset, filter, label) => {
 };
 
 // new category
-const createCategoryService = async (body) => {
-    const category = await db.Categories.create({
+const createAccountService = async (body) => {
+    const { Password } = body;
+    const salt = await bcryptjs.genSalt(10); //whatever number you want
+    const hashPass = await bcryptjs.hash(Password, salt);
+
+    const account = await db.Users.create({
         ...body,
         Status: 1,
         IsActive: 1,
-        Discriminator: 1,
+        Role: 0,
+        Password: hashPass,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
-    return category;
+    return account;
 };
 
 // update category
-const updateCategoryService = async (id, body) => {
-    const category = await db.Categories.update(
+const updateAccountService = async (id, body) => {
+    const account = await db.Users.update(
         {
             ...body,
         },
@@ -59,20 +65,20 @@ const updateCategoryService = async (id, body) => {
             where: { Id: id },
         }
     );
-    return category;
+    return account;
 };
 
 // delete category
-const deleteCategoryService = async (id) => {
-    const category = await db.Categories.destroy({
+const deleteAccountService = async (id) => {
+    const account = await db.Users.destroy({
         where: { Id: id },
     });
-    return category;
+    return account;
 };
 
 module.exports = {
     getAccountService,
-    createCategoryService,
-    updateCategoryService,
-    deleteCategoryService,
+    createAccountService,
+    updateAccountService,
+    deleteAccountService,
 };

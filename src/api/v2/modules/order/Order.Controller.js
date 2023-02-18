@@ -20,7 +20,7 @@ const getOrders = catchAsync(async (req, res) => {
     const { page, size, search } = req.query;
     const { limit, offset } = getPagination(page - 1, size);
 
-    const orders = await getOrdersService(search, limit, offset);
+    const orders = await getOrdersService(search, limit, offset, req.query);
 
     res.send(getPagingData(orders, page, limit, 'data'));
 });

@@ -28,14 +28,30 @@ const updateViewToursService = (id) => {
 
 // find all todos and pagination
 const getToursService = async (title, limit, offset, filter, label) => {
-    var condition = title ? { Title: { [sequelize.Op.like]: `%${title}%` } } : null;
+    // filter by title or code
+    const condition = {
+        [sequelize.Op.or]: [
+            { Title: { [sequelize.Op.like]: `%${title}%` } },
+            { Code: { [sequelize.Op.like]: `%${title}%` } },
+            { TourPrice: { [sequelize.Op.like]: `%${title}%` } },
+        ],
+    };
 
     const filterWhere = {
         // filter by Status
         Status: { [sequelize.Op.eq]: filter?.status },
         // filter ranger date createDate
+
         DateStartTour: {
-            [sequelize.Op.between]: [filter?.date?.fromDate, filter?.date?.toDate],
+            // [sequelize.Op.between]: [
+            //     sequelize.literal(`DATE('${filter?.date?.fromDate}')`),
+            //     sequelize.literal(`DATE('${filter?.date?.toDate}')`),
+            // ],
+            [sequelize.Op.and]: [
+                sequelize.fn('DATE', sequelize.col('DateStartTour')), // Convert string to DATE
+                { [sequelize.Op.gte]: filter?.fromDate },
+                { [sequelize.Op.lte]: filter?.toDate },
+            ],
         },
     };
 
@@ -43,7 +59,7 @@ const getToursService = async (title, limit, offset, filter, label) => {
         delete filterWhere.Status;
     }
 
-    if (!filter?.fromDate) {
+    if (!filter?.fromDate || !filter?.toDate) {
         delete filterWhere.DateStartTour;
     }
 
@@ -100,10 +116,13 @@ const getDetailTourService = async (id) => {
 };
 
 const createDestinationService = async (body) => {
+    const des = decodeHTMLEntities(body.Description).replace(/&lt;/g, '<');
+
     return db.Destinations.create({
         ...body,
         Status: 1,
         IsActive: 1,
+        Description: des,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     })
         .then((result) => {
@@ -115,9 +134,11 @@ const createDestinationService = async (body) => {
 };
 
 const updateDestinationService = async (body, id) => {
+    const des = decodeHTMLEntities(body.Description).replace(/&lt;/g, '<');
     return await db.Destinations.update(
         {
             ...body,
+            Description: des,
         },
         {
             where: { Id: id },
@@ -168,6 +189,19 @@ const updateTourService = async (id, body) => {
     return tours;
 };
 
+// update status tour
+const updateStatusTourService = async (id, body) => {
+    const tours = await db.Tours.update(
+        {
+            Status: body?.Status,
+        },
+        {
+            where: { Id: id },
+        }
+    );
+    return tours;
+};
+
 // delete category
 const deleteTourService = async (id) => {
     const category = await db.Tours.destroy({
@@ -198,4 +232,5 @@ module.exports = {
     getDetailTourService,
     updateViewToursService,
     createFeedbackService,
+    updateStatusTourService,
 };

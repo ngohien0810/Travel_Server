@@ -15,6 +15,7 @@ const getCategoriesService = async (title, limit, offset, filter, label) => {
         limit,
         offset,
         distinct: true,
+        order: [['CreatedDate', 'DESC']],
     })
         .then((result) => {
             return result;

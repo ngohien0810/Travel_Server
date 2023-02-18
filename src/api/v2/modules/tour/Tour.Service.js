@@ -29,13 +29,15 @@ const updateViewToursService = (id) => {
 // find all todos and pagination
 const getToursService = async (title, limit, offset, filter, label) => {
     // filter by title or code
-    const condition = {
-        [sequelize.Op.or]: [
-            { Title: { [sequelize.Op.like]: `%${title}%` } },
-            { Code: { [sequelize.Op.like]: `%${title}%` } },
-            { TourPrice: { [sequelize.Op.like]: `%${title}%` } },
-        ],
-    };
+    const condition = title
+        ? {
+              [sequelize.Op.or]: [
+                  { Title: { [sequelize.Op.like]: `%${title}%` } },
+                  { Code: { [sequelize.Op.like]: `%${title}%` } },
+                  { TourPrice: { [sequelize.Op.like]: `%${title}%` } },
+              ],
+          }
+        : {};
 
     const filterWhere = {
         // filter by Status

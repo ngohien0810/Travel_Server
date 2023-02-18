@@ -29,6 +29,8 @@ const getAccountService = async (title, limit, offset, filter, label) => {
         limit,
         offset,
         distinct: true,
+        // order
+        order: [['CreatedDate', 'DESC']],
     })
         .then((result) => {
             return result;

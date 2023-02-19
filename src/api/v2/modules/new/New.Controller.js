@@ -54,7 +54,9 @@ const updateNews = catchAsync(async (req, res) => {
 // delete category
 const deleteNews = catchAsync(async (req, res) => {
     const data = await deleteNewsService(req.params.id);
-    res.status(204).send(data);
+    res.send({
+        status: 1,
+    });
 });
 
 module.exports = {

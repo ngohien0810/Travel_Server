@@ -51,8 +51,8 @@ const getToursService = async (title, limit, offset, filter, label) => {
             // ],
             [sequelize.Op.and]: [
                 sequelize.fn('DATE', sequelize.col('DateStartTour')), // Convert string to DATE
-                { [sequelize.Op.gte]: filter?.fromDate },
-                { [sequelize.Op.lte]: filter?.toDate },
+                { [sequelize.Op.gte]: sequelize.fn('DATE', filter?.fromDate) },
+                { [sequelize.Op.lte]: sequelize.fn('DATE', filter?.toDate) },
             ],
         },
     };

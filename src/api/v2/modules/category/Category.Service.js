@@ -52,6 +52,11 @@ const updateCategoryService = async (id, body) => {
 
 // delete category
 const deleteCategoryService = async (id) => {
+    await db.News.destroy({
+        where: {
+            CategoryID: id,
+        },
+    });
     const category = await db.Categories.destroy({
         where: { Id: id },
     });

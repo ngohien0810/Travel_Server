@@ -107,7 +107,9 @@ const updateStatusTour = catchAsync(async (req, res) => {
 // delete category
 const deleteTour = catchAsync(async (req, res) => {
     await deleteTourService(req.params.id);
-    res.status(204).send();
+    res.send({
+        status: 1,
+    });
 });
 
 // createFeedback

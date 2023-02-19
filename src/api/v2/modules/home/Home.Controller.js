@@ -9,6 +9,20 @@ const getReport = catchAsync(async (req, res) => {
     res.send({ countNews, countTour, countUser });
 });
 
+const reportTourByFeedbacks = catchAsync(async (req, res) => {
+    const reportTourByFeedbacks = await db.Tours.findAll({
+        include: [
+            {
+                model: db.Feedbacks,
+                as: 'feedbacks',
+                required: false,
+            },
+        ],
+    });
+    res.send(reportTourByFeedbacks);
+});
+
 module.exports = {
     getReport,
+    reportTourByFeedbacks,
 };

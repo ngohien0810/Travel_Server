@@ -9,6 +9,12 @@ module.exports = (sequelize, DataTypes) => {
                 foreignKey: 'CustomerID',
             });
 
+            Orders.belongsTo(models.Tours, {
+                // through: 'todo_users',
+                as: 'tour',
+                foreignKey: 'TourID',
+            });
+
             // Orders.hasMany(models.Todo_Comments, {
             //     as: 'comments',
             // });
@@ -25,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
             Code: DataTypes.STRING,
             CodeTour: DataTypes.STRING,
             CustomerID: DataTypes.INTEGER,
-            // OrderID: DataTypes.INTEGER,
+            TourID: DataTypes.INTEGER,
             AdultTicket: DataTypes.STRING,
             ChildTicket: DataTypes.STRING,
             PaymentMethod: DataTypes.INTEGER,

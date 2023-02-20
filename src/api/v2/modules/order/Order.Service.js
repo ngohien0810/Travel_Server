@@ -31,6 +31,9 @@ const getOrdersService = async (title, limit, offset, filter) => {
                 { [sequelize.Op.lte]: filter?.toDate },
             ],
         },
+
+        // filter by CustomerID
+        CustomerID: { [sequelize.Op.eq]: filter?.customerID },
     };
 
     if (!filter?.status) {
@@ -41,16 +44,26 @@ const getOrdersService = async (title, limit, offset, filter) => {
         delete filterWhere.CreatedDate;
     }
 
+    if (!filter?.customerID) {
+        delete filterWhere.CustomerID;
+    }
+
     return db.Orders.findAndCountAll({
         where: { ...condition, ...filterWhere },
         limit,
         offset,
         distinct: true,
+        // order by CreatedDate
+        order: [['CreatedDate', 'DESC']],
         // includes Customers
         include: [
             {
                 model: db.Customers,
                 as: 'customer',
+            },
+            {
+                model: db.Tours,
+                as: 'tour',
             },
         ],
     })

@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
             Tours.hasMany(models.Feedbacks, {
                 as: 'feedbacks',
             });
+
+            Tours.hasMany(models.Orders, {
+                as: 'orders',
+            });
         }
     }
 

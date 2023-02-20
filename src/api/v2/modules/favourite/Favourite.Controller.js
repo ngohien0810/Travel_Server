@@ -29,6 +29,7 @@ const getFavourites = catchAsync(async (req, res) => {
 //  creat new favourites
 const createFavourites = catchAsync(async (req, res) => {
     const favourite = await createfavouritesService(req.body);
+
     res.status(201).send(favourite);
 });
 

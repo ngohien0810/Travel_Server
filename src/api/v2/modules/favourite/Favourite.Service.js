@@ -66,7 +66,7 @@ const updateCategoryService = async (id, body) => {
 // delete category
 const deleteFavouriteService = async (id) => {
     const favourite = await db.Favourites.destroy({
-        where: { Id: id },
+        where: { Tour_Id: id },
     });
     return favourite;
 };

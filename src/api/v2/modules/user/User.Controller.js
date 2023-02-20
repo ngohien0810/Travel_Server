@@ -52,8 +52,19 @@ const changeStatus = catchAsync(async (req, res) => {
     });
 });
 
+const deleteUser = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const user = await db.Customers.destroy({
+        where: { ID: id },
+    });
+    res.send({
+        status: 1,
+    });
+});
+
 module.exports = {
     getUsers,
     changeStatus,
     detailUser,
+    deleteUser,
 };

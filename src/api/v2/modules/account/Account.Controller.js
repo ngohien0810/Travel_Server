@@ -45,7 +45,9 @@ const updateAccount = catchAsync(async (req, res) => {
 // delete category
 const deleteAccount = catchAsync(async (req, res) => {
     await deleteAccountService(req.params.id);
-    res.status(204).send();
+    res.send({
+        status: 1,
+    });
 });
 
 module.exports = {

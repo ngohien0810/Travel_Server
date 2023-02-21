@@ -1,20 +1,19 @@
 'use strict';
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-    class OrderContact extends Model {
+    class OrderContacts extends Model {
         static associate(models) {
-            OrderContact.belongsTo(models.Orders, {
-                // through: 'todo_users',
-                // as: 'users',
+            OrderContacts.belongsTo(models.Orders, {
                 foreignKey: 'OrderID',
+                as: 'order',
             });
 
-            // OrderContact.hasMany(models.Todo_Comments, {
+            // OrderContacts.hasMany(models.Todo_Comments, {
             //     as: 'comments',
             // });
         }
     }
-    OrderContact.init(
+    OrderContacts.init(
         {
             OrderID: DataTypes.INTEGER,
             Name: DataTypes.STRING,
@@ -24,11 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            tableName: 'OrderContact',
-            modelName: 'OrderContact',
+            tableName: 'OrderContacts',
+            modelName: 'OrderContacts',
             timestamps: false,
             // createdAt: 'CreatedDate',
         }
     );
-    return OrderContact;
+    return OrderContacts;
 };

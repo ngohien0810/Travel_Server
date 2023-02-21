@@ -18,6 +18,8 @@ const getOrdersService = async (title, limit, offset, filter) => {
     const filterWhere = {
         // filter by Status
         StatusOrder: { [sequelize.Op.eq]: filter?.status },
+        // tourStatus
+        tourStatus: { [sequelize.Op.eq]: filter?.tourStatus },
         // filter ranger date createDate
 
         CreatedDate: {
@@ -38,6 +40,10 @@ const getOrdersService = async (title, limit, offset, filter) => {
 
     if (!filter?.status) {
         delete filterWhere.StatusOrder;
+    }
+
+    if (!filter?.tourStatus) {
+        delete filterWhere.tourStatus;
     }
 
     if (!filter?.fromDate || !filter?.toDate) {
@@ -65,6 +71,10 @@ const getOrdersService = async (title, limit, offset, filter) => {
                 model: db.Tours,
                 as: 'tour',
             },
+            {
+                model: db.OrderContacts,
+                as: 'contact',
+            },
         ],
     })
         .then((result) => {
@@ -77,7 +87,6 @@ const getOrdersService = async (title, limit, offset, filter) => {
 
 // new orders
 const createOrderService = async (body) => {
-    console.log('🚀 ~ file: Order.Service.js:43 ~ createOrderService ~ body', body);
     const order = await db.Orders.create({
         ...body,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -97,6 +106,18 @@ const changeStatusService = async (id, StatusOrder) => {
     return order;
 };
 
+// changeTourStatusService
+const changeTourStatusService = async (id, tourStatus) => {
+    const order = await db.Orders.update(
+        {
+            tourStatus: 1,
+        },
+        {
+            where: { ID: id },
+        }
+    );
+    return order;
+};
 // update category
 const updateCategoryService = async (id, body) => {
     const category = await db.Categories.update(
@@ -111,15 +132,26 @@ const updateCategoryService = async (id, body) => {
 };
 
 // delete category
-const deleteCategoryService = async (id) => {
-    const category = await db.Categories.destroy({
+const deleteOrderService = async (id) => {
+    const order = await db.Orders.destroy({
         where: { Id: id },
     });
-    return category;
+    return order;
+};
+
+// contact
+const createContactService = async (body) => {
+    const contact = await db.OrderContacts.create({
+        ...body,
+    });
+    return contact;
 };
 
 module.exports = {
     getOrdersService,
     createOrderService,
     changeStatusService,
+    deleteOrderService,
+    createContactService,
+    changeTourStatusService,
 };

@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             // });
 
             // one to one relationship order and orderContact models
-            // Orders.hasOne(models.OrderContacts, {
-            //     as: 'orderContact',
-            //     foreignKey: 'OrderID',
-            // });
+            Orders.belongsTo(models.OrderContacts, {
+                foreignKey: 'ContactID',
+                as: 'contact',
+            });
         }
     }
     Orders.init(
@@ -38,6 +38,8 @@ module.exports = (sequelize, DataTypes) => {
             TotalPrice: DataTypes.INTEGER,
             CreatedDate: DataTypes.STRING,
             StatusOrder: DataTypes.INTEGER,
+            ContactID: DataTypes.INTEGER,
+            tourStatus: DataTypes.INTEGER,
         },
         {
             sequelize,

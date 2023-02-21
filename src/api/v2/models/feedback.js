@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     class Feedbacks extends Model {
         static associate(models) {
             Feedbacks.belongsTo(models.Tours, {
-                as: 'feedback',
+                as: 'tour',
                 foreignKey: 'TourID',
             });
         }

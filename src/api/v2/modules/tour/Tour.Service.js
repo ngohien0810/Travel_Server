@@ -212,12 +212,55 @@ const deleteTourService = async (id) => {
     return category;
 };
 
+// getFeedbacksService
+const getFeedbacksService = async (title, limit, offset, query, label) => {
+    const condition = title
+        ? {
+              [sequelize.Op.or]: [
+                  { Name: { [sequelize.Op.like]: `%${title}%` } },
+                  { Phone: { [sequelize.Op.like]: `%${title}%` } },
+              ],
+          }
+        : {};
+
+    return db.Feedbacks.findAndCountAll({
+        where: { ...condition },
+        limit,
+        offset,
+        // sort CreatedDate
+        order: [['CreatedDate', 'DESC']],
+        distinct: true,
+        // relication for join table feedback
+        include: [
+            {
+                model: db.Tours,
+                as: 'tour',
+                required: false,
+                order: [['CreatedDate', 'DESC']],
+            },
+        ],
+    })
+        .then((result) => {
+            return result;
+        })
+        .catch((error) => {
+            throw new ApiError(httpStatus.BAD_REQUEST, error);
+        });
+};
+
 // createFeedbackService
 const createFeedbackService = async (body) => {
     const feedback = await db.Feedbacks.create({
         ...body,
         isActive: 1,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+    });
+    return feedback;
+};
+
+const deleteFeedbackService = async (id) => {
+    const feedback = await db.Feedbacks.destroy({
+        where: { ID: id },
     });
     return feedback;
 };
@@ -235,4 +278,6 @@ module.exports = {
     updateViewToursService,
     createFeedbackService,
     updateStatusTourService,
+    getFeedbacksService,
+    deleteFeedbackService,
 };

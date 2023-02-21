@@ -14,6 +14,8 @@ const {
     updateViewToursService,
     createFeedbackService,
     updateStatusTourService,
+    getFeedbacksService,
+    deleteFeedbackService,
 } = require('./Tour.Service');
 
 const getPagination = (page, size) => {
@@ -112,12 +114,30 @@ const deleteTour = catchAsync(async (req, res) => {
     });
 });
 
+// get feedbacks
+const getFeedbacks = catchAsync(async (req, res) => {
+    const { page, size, search, filter, label } = req.query;
+    const { limit, offset } = getPagination(page - 1, size);
+
+    const feedbacks = await getFeedbacksService(search, limit, offset, req.query, label);
+
+    res.send(getPagingData(feedbacks, page, limit, 'data'));
+});
+
 // createFeedback
 const createFeedback = catchAsync(async (req, res) => {
     const feedback = await createFeedbackService(req.body);
     res.send({
         status: 1,
         data: feedback,
+    });
+});
+
+// createFeedback
+const deleteFeedback = catchAsync(async (req, res) => {
+    await deleteFeedbackService(req.params.id);
+    res.send({
+        status: 1,
     });
 });
 
@@ -134,4 +154,6 @@ module.exports = {
     updateViewTours,
     createFeedback,
     updateStatusTour,
+    getFeedbacks,
+    deleteFeedback,
 };

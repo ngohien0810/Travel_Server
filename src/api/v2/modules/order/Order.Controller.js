@@ -1,5 +1,12 @@
 const { catchAsync } = require('../../helpers');
-const { getOrdersService, createOrderService, changeStatusService } = require('./Order.Service');
+const {
+    getOrdersService,
+    createOrderService,
+    changeStatusService,
+    deleteOrderService,
+    createContactService,
+    changeTourStatusService,
+} = require('./Order.Service');
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 10;
@@ -36,6 +43,11 @@ const changeStatus = catchAsync(async (req, res) => {
     res.send(order);
 });
 
+const changeTourStatus = catchAsync(async (req, res) => {
+    const order = await changeTourStatusService(req.params.id, req.body?.tourStatus);
+    res.send(order);
+});
+
 // update category
 const updateCategory = catchAsync(async (req, res) => {
     const category = await updateCategoryService(req.params.id, req.body);
@@ -43,13 +55,25 @@ const updateCategory = catchAsync(async (req, res) => {
 });
 
 // delete category
-const deleteCategory = catchAsync(async (req, res) => {
-    await deleteCategoryService(req.params.id);
+const deleteOrder = catchAsync(async (req, res) => {
+    await deleteOrderService(req.params.id);
     res.status(204).send();
+});
+
+// contact
+const createContact = catchAsync(async (req, res) => {
+    const contact = await createContactService(req.body);
+    res.status(201).send({
+        status: 1,
+        data: contact,
+    });
 });
 
 module.exports = {
     getOrders,
     createOrder,
     changeStatus,
+    deleteOrder,
+    createContact,
+    changeTourStatus,
 };

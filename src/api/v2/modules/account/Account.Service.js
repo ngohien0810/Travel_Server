@@ -50,7 +50,7 @@ const createAccountService = async (body) => {
         ...body,
         Status: 1,
         IsActive: 1,
-        Role: 0,
+        Role: 1,
         Password: hashPass,
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });

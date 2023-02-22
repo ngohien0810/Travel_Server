@@ -36,7 +36,7 @@ const getNewService = async (title, limit, offset, filter) => {
     return db.News.findAndCountAll({
         where: { ...condition, ...filterWhere },
         limit,
-        // offset,
+        offset,
         // sort CreatedDate
         order: [['CreatedDate', 'DESC']],
         distinct: true,

@@ -19,6 +19,6 @@ router.route('/destination/:id').put(TourController.updateDestination).delete(To
 
 // feedback
 router.route('/feedback').get(TourController.getFeedbacks).post(TourController.createFeedback);
-router.route('/feedback/:id').delete(TourController.deleteFeedback);
+router.route('/feedback/:id').delete(TourController.deleteFeedback).patch(TourController.updateStatusFeedback);
 
 module.exports = router;

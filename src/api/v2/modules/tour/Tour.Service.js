@@ -79,6 +79,9 @@ const getToursService = async (title, limit, offset, filter, label) => {
                 as: 'feedbacks',
                 // attributes: ['Id', 'Rating', 'Comment', 'CreatedAt'],
                 required: false,
+                where: {
+                    isActive: { [sequelize.Op.eq]: 1 },
+                },
                 // sort CreatedDate
                 order: [['CreatedDate', 'DESC']],
             },
@@ -111,6 +114,9 @@ const getDetailTourService = async (id) => {
                 model: db.Feedbacks,
                 as: 'feedbacks',
                 // attributes: ['Id', 'Rating', 'Comment', 'CreatedAt'],
+                where: {
+                    isActive: { [sequelize.Op.eq]: 1 },
+                },
                 required: false,
             },
         ],
@@ -236,6 +242,7 @@ const getFeedbacksService = async (title, limit, offset, query, label) => {
                 model: db.Tours,
                 as: 'tour',
                 required: false,
+
                 order: [['CreatedDate', 'DESC']],
             },
         ],
@@ -256,6 +263,19 @@ const createFeedbackService = async (body) => {
         CreatedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
     });
     return feedback;
+};
+
+// update status tour
+const updateStatusFeedbackService = async (id, body) => {
+    const tours = await db.Feedbacks.update(
+        {
+            isActive: body?.isActive,
+        },
+        {
+            where: { Id: id },
+        }
+    );
+    return tours;
 };
 
 const deleteFeedbackService = async (id) => {
@@ -280,4 +300,5 @@ module.exports = {
     updateStatusTourService,
     getFeedbacksService,
     deleteFeedbackService,
+    updateStatusFeedbackService,
 };

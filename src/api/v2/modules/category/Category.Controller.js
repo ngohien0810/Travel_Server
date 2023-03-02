@@ -25,7 +25,7 @@ const getCategories = catchAsync(async (req, res) => {
     const { page, size, title, filter, label } = req.query;
     const { limit, offset } = getPagination(page - 1, size);
 
-    const todos = await getCategoriesService(title, limit, offset, filter, label);
+    const todos = await getCategoriesService(title, limit, offset, req.query, label);
 
     res.send(getPagingData(todos, page, limit, 'data'));
 });

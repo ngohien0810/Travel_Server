@@ -8,7 +8,13 @@ const db = require('../../models/index');
 const getCategoriesService = async (title, limit, offset, filter, label) => {
     var condition = title ? { Name: { [sequelize.Op.like]: `%${title}%` } } : null;
 
-    const filterWhere = {};
+    const filterWhere = {
+        Status: { [sequelize.Op.eq]: filter?.Status },
+    };
+
+    if (!filter?.Status) {
+        delete filterWhere.Status;
+    }
 
     return db.Categories.findAndCountAll({
         where: { ...condition, ...filterWhere },
